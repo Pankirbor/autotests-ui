@@ -1,6 +1,9 @@
+import pytest
 from playwright.sync_api import sync_playwright, expect
 
 
+@pytest.mark.courses
+@pytest.mark.regression
 def test_empty_courses_list():
     """
     Тестирует отображение страницы курсов при пустом списке курсов.
