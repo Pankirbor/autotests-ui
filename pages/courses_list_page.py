@@ -1,11 +1,17 @@
 from playwright.sync_api import Page
 
 from pages.base_page import BasePage
+from components.navigation.sidebar_component import SidebarComponent
+from components.navigation.navbar_component import NavbarComponent
 
 
 class CoursesListPage(BasePage):
     def __init__(self, page: Page) -> None:
         super().__init__(page)
+
+        self.navbar = NavbarComponent(page)
+        self.sidebar = SidebarComponent(page)
+
         self.courses_page_title = page.get_by_test_id("courses-list-toolbar-title-text")
         self.create_course_btn = page.get_by_test_id(
             "courses-list-toolbar-create-course-button"

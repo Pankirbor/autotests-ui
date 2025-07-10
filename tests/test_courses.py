@@ -6,9 +6,9 @@ from pages.courses_list_page import CoursesListPage
 from pages.create_course_page import CreateCoursePage
 
 
-@pytest.mark.courses
 @pytest.mark.regression
-def test_empty_courses_list(chromium_page_with_state):
+@pytest.mark.courses
+def test_empty_courses_list(courses_list_page: CoursesListPage):
     """
     Тестирует отображение страницы курсов при пустом списке курсов.
 
@@ -30,37 +30,14 @@ def test_empty_courses_list(chromium_page_with_state):
 
     Использует: sync_playwright, методы playwright для работы с DOM и проверки условий.
     """
-
-    page = chromium_page_with_state
-
-    page.goto(
-        " https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses",
-        wait_until="networkidle",
+    courses_list_page.visit(
+        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses"
     )
-    title_courses_page = page.get_by_test_id("courses-list-toolbar-title-text")
-    icon_no_results = page.get_by_test_id("courses-list-empty-view-icon")
-    title_no_results = page.get_by_test_id("courses-list-empty-view-title-text")
-    description_no_results = page.get_by_test_id(
-        "courses-list-empty-view-description-text"
-    )
-    h1 = "Courses"
-    h2 = "There is no results"
-    icon = ""
-    text = "Results from the load test pipeline will be displayed here"
-    items = zip(
-        (h1, icon, h2, text),
-        (
-            title_courses_page,
-            icon_no_results,
-            title_no_results,
-            description_no_results,
-        ),
-    )
-    for expexted_val, item_page in items:
-        if expexted_val:
-            expect(item_page).to_have_text(expexted_val)
-
-        expect(item_page).to_be_visible()
+    courses_list_page.navbar.check_visible("username")
+    courses_list_page.sidebar.check_visible()
+    courses_list_page.check_visable_courses_page_title()
+    courses_list_page.check_visable_create_course_btn()
+    courses_list_page.check_visable_empty_courses_list()
 
 
 @pytest.mark.courses
@@ -68,6 +45,26 @@ def test_empty_courses_list(chromium_page_with_state):
 def test_create_course(
     create_course_page: CreateCoursePage, courses_list_page: CoursesListPage
 ):
+    """
+    Тест проверяет процесс создания нового курса в UI-приложении.
+
+    Тестовые шаги:
+    1. Переход на страницу списка курсов и проверка видимости кнопки создания курса.
+    2. Открытие страницы создания курса и проверка отображения всех элементов формы.
+    3. Загрузка изображения и заполнение формы данных курса.
+    4. Проверка создания и удаления упражнения.
+    5.Сохранение курса.
+    6. Проверка отображения созданного курса в списке.
+
+    Используемые страницы:
+        - courses_list_page: Страница со списком курсов.
+        - create_course_page: Страница с формой создания курса.
+
+    Шаги теста:
+    1. Открытие страницы курсов и проверка элементов интерфейса.
+    2. Создание и заполнение формы курса.
+    3. Проверка результатов после сохранения.
+    """
     # ? Переход на страницу создания курса и проверка наличия всех элементов страницы
     courses_list_page.visit(
         "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses"
