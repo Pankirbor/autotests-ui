@@ -1,11 +1,14 @@
 from playwright.sync_api import Page
 
+from components.navigation.navbar_component import NavbarComponent
 from pages.base_page import BasePage
 
 
 class DashboardPage(BasePage):
     def __init__(self, page: Page) -> None:
         super().__init__(page)
+
+        self.navbar = NavbarComponent(page)
 
         self.title_dashboard_page = page.get_by_test_id("dashboard-toolbar-title-text")
         self.title_chart_view_sudents = page.get_by_test_id(
