@@ -1,49 +1,52 @@
 from playwright.sync_api import Page
 
+from components.charts.charts_view_component import ChartViewComponent
 from components.navigation.navbar_component import NavbarComponent
 from components.navigation.sidebar_component import SidebarComponent
+from components.dashboard.dashboard_toolbar_view_component import (
+    DashboardToolbarViewComponent,
+)
 from pages.base_page import BasePage
 
 
 class DashboardPage(BasePage):
+    """
+    Класс, представляющий страницу главной панели (Dashboard).
+
+    Атрибуты:
+        navbar (NavbarComponent): Компонент верхней навигационной панели.
+        sidebar (SidebarComponent): Компонент боковой панели.
+        toolbar (DashboardToolbarViewComponent): Верхняя панель инструментов Dashboard.
+        students_chart (ChartViewComponent): Диаграмма студентов.
+        courses_chart (ChartViewComponent): Диаграмма курсов.
+        activities_chart (ChartViewComponent): Диаграмма активностей.
+        scores_chart (ChartViewComponent): Диаграмма оценок.
+
+    Методы:
+        __init__: Инициализирует все компоненты страницы Dashboard.
+    """
+
     def __init__(self, page: Page) -> None:
+        """
+        Инициализирует объект DashboardPage и связанные с ним компоненты.
+
+        Аргументы:
+            page (Page): Экземпляр страницы, к которой относится Dashboard.
+        """
         super().__init__(page)
 
         self.navbar = NavbarComponent(page)
         self.sidebar = SidebarComponent(page)
-
-        self.title_dashboard_page = page.get_by_test_id("dashboard-toolbar-title-text")
-        self.title_chart_view_sudents = page.get_by_test_id(
-            "students-widget-title-text"
+        self.toolbar = DashboardToolbarViewComponent(page)
+        self.students_chart = ChartViewComponent(
+            page, "Students", identifier_chart="students-bar"
         )
-        self.chart_view_students = page.get_by_test_id("students-bar-chart")
-
-        self.title_chart_view_courses = page.get_by_test_id("courses-widget-title-text")
-        self.chart_view_courses = page.get_by_test_id("courses-pie-chart")
-
-        self.title_chart_view_scores = page.get_by_test_id("scores-widget-title-text")
-        self.chart_view_scores = page.get_by_test_id("scores-scatter-chart")
-
-        self.title_chart_view_activities = page.get_by_test_id(
-            "activities-widget-title-text"
+        self.courses_chart = ChartViewComponent(
+            page, title="Courses", identifier_chart="courses-pie"
         )
-        self.chart_view_activites = page.get_by_test_id("activities-line-chart")
-
-    def check_visible_dashboard_page_title(self) -> None:
-        self.check_locator(self.title_dashboard_page, "Dashboard")
-
-    def check_visible_students_chart(self) -> None:
-        self.check_locator(self.title_chart_view_sudents, "Students")
-        self.check_locator(self.chart_view_students)
-
-    def check_visible_courses_chart(self) -> None:
-        self.check_locator(self.title_chart_view_courses, "Courses")
-        self.check_locator(self.chart_view_courses)
-
-    def check_visible_activities_chart(self) -> None:
-        self.check_locator(self.title_chart_view_activities, "Activities")
-        self.check_locator(self.chart_view_activites)
-
-    def check_visible_scores_chart(self) -> None:
-        self.check_locator(self.title_chart_view_scores, "Scores")
-        self.check_locator(self.chart_view_scores)
+        self.activites_chart = ChartViewComponent(
+            page, title="Activities", identifier_chart="activities-line"
+        )
+        self.scores_chart = ChartViewComponent(
+            page, title="Scores", identifier_chart="scores-scatter"
+        )

@@ -51,6 +51,7 @@ class LoginFormComponent(BaseComponent):
             email (str): Электронная почта для входа.
             password (str): Пароль для входа.
         """
+        self.check_visible()
         self.email_input.type(email, delay=100)
         self.check_input_locator(self.email_input, email)
 

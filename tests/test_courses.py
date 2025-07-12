@@ -1,7 +1,5 @@
 import pytest
 
-from playwright.sync_api import expect
-
 from pages.courses_list_page import CoursesListPage
 from pages.create_course_page import CreateCoursePage
 
@@ -10,34 +8,34 @@ from pages.create_course_page import CreateCoursePage
 @pytest.mark.courses
 def test_empty_courses_list(courses_list_page: CoursesListPage):
     """
-    Тестирует отображение страницы курсов при пустом списке курсов.
+    Тест проверяет отображение страницы курсов при пустом списке курсов.
 
-    Проверяет, что после регистрации пользователя и перехода на страницу курсов,
-    отображается уведомление о том, что список курсов пустой. Проверяются текстовые
-    элементы и видимость соответствующих элементов интерфейса.
+    Описание:
+        Проверяет, что при открытии страницы курсов после регистрации нового пользователя
+        отображается сообщение о том, что список курсов пустой. Проверяются элементы:
+        - Навигационная панель.
+        - Боковая панель.
+        - Верхняя панель инструментов.
+        - Сообщение о пустом списке курсов (иконка, заголовок, описание).
 
     Шаги:
-    1. Открывает браузер и переходит на страницу регистрации.
-    2. Заполняет форму регистрации (email, имя пользователя, пароль).
-    3. Выполняет регистрацию.
-    4. Сохраняет состояние браузера в файл `browser-state.json`.
-    5. Открывает браузер с сохранённым состоянием и переходит на страницу курсов.
-    6. Проверяет наличие и текст следующих элементов:
-        - Заголовок страницы "Courses".
-        - Иконка отсутствия результатов.
-        - Заголовок сообщения об отсутствии результатов.
-        - Описание сообщения об отсутствии результатов.
+        1. Переход на страницу курсов.
+        2. Проверка видимости и корректности навигационной панели.
+        3. Проверка видимости боковой панели.
+        4. Проверка видимости верхней панели инструментов.
+        5. Проверка отображения сообщения об отсутствии курсов.
 
-    Использует: sync_playwright, методы playwright для работы с DOM и проверки условий.
+    Ожидаемый результат:
+        Все элементы страницы отображаются корректно, а пользователь видит информирующее сообщение
+        о том, что список курсов пуст.
     """
     courses_list_page.visit(
         "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses"
     )
     courses_list_page.navbar.check_visible("username")
     courses_list_page.sidebar.check_visible()
-    courses_list_page.check_visable_courses_page_title()
-    courses_list_page.check_visable_create_course_btn()
-    courses_list_page.check_visable_empty_courses_list()
+    courses_list_page.toolbar.check_visible()
+    courses_list_page.check_visible_empty_view()
 
 
 @pytest.mark.courses
@@ -69,45 +67,43 @@ def test_create_course(
     courses_list_page.visit(
         "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses"
     )
-    courses_list_page.check_visable_create_course_btn()
-    courses_list_page.click_create_course_btn()
-    create_course_page.check_visible_create_course_title()
-    create_course_page.check_disabled_create_course_btn()
-    create_course_page.check_visable_image_view_empty_view()
-    create_course_page.check_visable_image_upload_view()
-    create_course_page.check_visable_create_course_form(
+    courses_list_page.toolbar.check_visible()
+    courses_list_page.toolbar.click_create_course_btn()
+
+    create_course_page.navbar.check_visible("username")
+    create_course_page.sidebar.check_visible()
+    create_course_page.toolbar.check_visible()
+    create_course_page.file_upload_widget.check_visible()
+    create_course_page.course_form.check_visible(
         title="", estimated_time="", description="", max_score="0", min_score="0"
     )
-    create_course_page.check_visable_exercises_title()
-    create_course_page.check_visable_exercise_create_btn()
-    create_course_page.check_visable_empty_exercises_list()
-    create_course_page.click_exercise_create_btn()
-    create_course_page.check_visible_create_exercise_form(
+    create_course_page.exercises_toolbar.check_visible()
+    create_course_page.check_visible_empty_exercises_list()
+    create_course_page.exercises_toolbar.click_create_exercise_btn()
+    create_course_page.exercise_form.check_visible(
         index=0, title="Exercise title", description="Exercise description"
     )
 
     # ? Заполнение формы и проверка наличия элементов после заполнения
-    create_course_page.upload_preview_image("./testdata/files/image.jpg")
-    create_course_page.check_visable_preview_image()
-    create_course_page.check_visable_image_upload_view(is_image_uploaded=True)
-    create_course_page.fill_create_course_form(
+    create_course_page.file_upload_widget.upload_file("./testdata/files/image.jpg")
+    create_course_page.file_upload_widget.check_visible(is_file_uploaded=True)
+    create_course_page.course_form.fill(
         title="Playwright",
         estimated_time="2 weeks",
         description="Playwright",
         max_score="100",
         min_score="10",
     )
-    create_course_page.fill_create_exercise_form(
+    create_course_page.exercise_form.fill(
         index=0, title="Playwright", description="Playwright"
     )
-    create_course_page.click_delete_exercise_btn(index=0)
-    create_course_page.check_visable_empty_exercises_list()
-    create_course_page.click_create_course_btn()
+    create_course_page.exercise_form.click_delete_exercise_btn(index=0)
+    create_course_page.check_visible_empty_exercises_list()
+    create_course_page.toolbar.click_create_course_btn()
 
     # ? Проверка наличия элементов после создания курса
-    courses_list_page.check_visable_courses_page_title()
-    courses_list_page.check_visable_create_course_btn()
-    courses_list_page.check_visible_course_card(
+    courses_list_page.toolbar.check_visible()
+    courses_list_page.course_card.check_visible(
         index=0,
         title="Playwright",
         estimated_time="2 weeks",

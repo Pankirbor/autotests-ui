@@ -36,7 +36,7 @@ class CreateCourseToolbarViewComponent(BaseComponent):
         """
         Проверяет, что заголовок отображается корректно и кнопка "Создать курс" отключена.
         """
-        self.check_locator(self.courses_page_title, "Create course")
+        self.check_locator(self.title, "Create course")
         expect(self.create_course_btn).to_be_disabled()
 
     def click_create_course_btn(self):
