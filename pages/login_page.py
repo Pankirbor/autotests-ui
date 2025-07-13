@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 
 from components.authentication import LoginFormComponent
+from elements import Button, Link, Text
 from pages.base_page import BasePage
 
 
@@ -9,17 +10,17 @@ class LoginPage(BasePage):
     Класс, представляющий страницу входа в систему.
 
     Атрибуты:
-        form (LoginFormComponent): Форма для ввода логина и пароля.
-        login_btn: Локатор кнопки "Войти".
-        registration_link: Локатор ссылки на страницу регистрации.
-        title_page: Локатор заголовка страницы.
-        wrong_email_or_password_alert: Локатор уведомления об ошибке при вводе неправильной почты или пароля.
+        form (LoginFormComponent): Форма для ввода данных пользователя.
+        login_btn (Button): Кнопка "Login".
+        registration_link (Link): Ссылка на страницу регистрации.
+        title_page (Text): Заголовок страницы.
+        wrong_email_or_password_alert (Text): Сообщение об ошибке при неверной почте или пароле.
 
     Методы:
-        click_login_btn: Кликает по кнопке "Войти".
-        click_registration_link: Кликает по ссылке "Зарегистрироваться".
-        check_visible_login_page_title: Проверяет видимость заголовка страницы.
-        check_visible_wrong_email_or_password_alert: Проверяет видимость сообщения об ошибке.
+        click_login_btn: Выполняет клик по кнопке "Login".
+        click_registration_link: Выполняет клик по ссылке "Registration".
+        check_visible_login_page_title: Проверяет отображение заголовка страницы.
+        check_visible_wrong_email_or_password_alert: Проверяет отображение сообщения об ошибке.
     """
 
     def __init__(self, page: Page):
@@ -33,37 +34,41 @@ class LoginPage(BasePage):
 
         self.form = LoginFormComponent(page)
 
-        self.login_btn = page.get_by_test_id("login-page-login-button")
-        self.registration_link = page.get_by_test_id("login-page-registration-link")
-        self.title_page = page.get_by_test_id("authentication-ui-course-title-text")
-        self.wrong_email_or_password_alert = page.get_by_test_id(
-            "login-page-wrong-email-or-password-alert"
+        self.login_btn = Button(page, "login-page-login-button", "Кнопка Login")
+        self.registration_link = Link(
+            page, "login-page-registration-link", "Ссылка на страницу регистрации"
+        )
+        self.title_page = Text(
+            page, "authentication-ui-course-title-text", "Заголовок страницы входа"
+        )
+        self.wrong_email_or_password_alert = Text(
+            page,
+            "login-page-wrong-email-or-password-alert",
+            "Сообщение об ошибке при неверном пароле или почте",
         )
 
     def click_login_btn(self):
         """
-        Кликает по кнопке "Войти" после проверки её видимости.
+        Кликает по кнопке "Login" после проверки её видимости.
         """
-        self.check_locator(self.login_btn)
-        self.login_btn.click()
+        self.login_btn.check_visible().click()
 
     def click_registration_link(self):
         """
-        Кликает по ссылке "Зарегистрироваться" после проверки её видимости.
+        Кликает по ссылке "Registration" после проверки её видимости.
         """
-        self.check_locator(self.registration_link)
-        self.registration_link.click()
+        self.registration_link.check_visible().click()
 
     def check_visible_login_page_title(self):
         """
         Проверяет, что заголовок страницы отображается корректно.
         """
-        self.check_locator(self.title_page, "UI Course")
+        self.title_page.check_visible().check_have_text("UI Course")
 
     def check_visible_wrong_email_or_password_alert(self):
         """
         Проверяет, что отображается уведомление о неверной электронной почте или пароле.
         """
-        self.check_locator(
-            self.wrong_email_or_password_alert, "Wrong email or password"
+        self.wrong_email_or_password_alert.check_visible().check_have_text(
+            "Wrong email or password"
         )

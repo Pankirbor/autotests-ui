@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements.input import Input
 
 
 class RegistrationFormComponent(BaseComponent):
@@ -26,15 +27,13 @@ class RegistrationFormComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.email_input = page.get_by_test_id("registration-form-email-input").locator(
-            "input"
+        self.email_input = Input(page, "registration-form-email-input", "Поле Email")
+        self.username_input = Input(
+            page, "registration-form-username-input", "Поле Username"
         )
-        self.username_input = page.get_by_test_id(
-            "registration-form-username-input"
-        ).locator("input")
-        self.password_input = page.get_by_test_id(
-            "registration-form-password-input"
-        ).locator("input")
+        self.password_input = Input(
+            page, "registration-form-password-input", "Поле Password"
+        )
 
     def check_visible(
         self, email: str = "", username: str = "", password: str = ""
@@ -47,9 +46,9 @@ class RegistrationFormComponent(BaseComponent):
             username (str): Ожидаемое значение поля имени пользователя.
             password (str): Ожидаемое значение поля пароля.
         """
-        self.check_input_locator(self.email_input, email)
-        self.check_input_locator(self.username_input, username)
-        self.check_input_locator(self.password_input, password)
+        self.email_input.check_visible().check_have_value(email)
+        self.username_input.check_visible().check_have_value(username)
+        self.password_input.check_visible().check_have_value(password)
 
     def fill(self, email: str, username: str, password: str) -> None:
         """
@@ -61,11 +60,7 @@ class RegistrationFormComponent(BaseComponent):
             password (str): Пароль пользователя.
         """
         self.check_visible()
-        self.email_input.fill(email)
-        self.check_input_locator(self.email_input, email)
 
-        self.username_input.fill(username)
-        self.check_input_locator(self.username_input, username)
-
-        self.password_input.fill(password)
-        self.check_input_locator(self.password_input, password)
+        self.email_input.type_text(email).check_have_value(email)
+        self.username_input.type_text(username).check_have_value(username)
+        self.password_input.type_text(password).check_have_value(password)

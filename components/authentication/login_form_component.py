@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements import Input
 
 
 class LoginFormComponent(BaseComponent):
@@ -8,11 +9,11 @@ class LoginFormComponent(BaseComponent):
     Компонент формы входа в систему.
 
     Атрибуты:
-        email_input: Локатор поля ввода электронной почты.
-        password_input: Локатор поля ввода пароля.
+        email_input (Input): Поле ввода электронной почты.
+        password_input (Input): Поле ввода пароля.
 
     Методы:
-        check_visible: Проверяет, что поля формы отображаются и содержат ожидаемые значения.
+        check_visible: Проверяет видимость и значение полей формы.
         fill: Заполняет поля формы значениями.
     """
 
@@ -25,12 +26,8 @@ class LoginFormComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.email_input = page.get_by_test_id("login-form-email-input").locator(
-            "input"
-        )
-        self.password_input = page.get_by_test_id("login-form-password-input").locator(
-            "input"
-        )
+        self.email_input = Input(page, "login-form-email-input", "Поле Email")
+        self.password_input = Input(page, "login-form-password-input", "Поле Password")
 
     def check_visible(self, email: str = "", password: str = ""):
         """
@@ -40,8 +37,8 @@ class LoginFormComponent(BaseComponent):
             email (str): Ожидаемое значение электронной почты.
             password (str): Ожидаемое значение пароля.
         """
-        self.check_input_locator(self.email_input, email)
-        self.check_input_locator(self.password_input, password)
+        self.email_input.check_visible().check_have_value(email)
+        self.password_input.check_visible().check_have_value(password)
 
     def fill(self, email: str, password: str):
         """
@@ -51,9 +48,14 @@ class LoginFormComponent(BaseComponent):
             email (str): Электронная почта для входа.
             password (str): Пароль для входа.
         """
-        self.check_visible()
-        self.email_input.type(email, delay=100)
-        self.check_input_locator(self.email_input, email)
+        (
+            self.email_input.check_visible()
+            .type_text(email, delay=100)
+            .check_have_value(email)
+        )
 
-        self.password_input.type(password, delay=100)
-        self.check_input_locator(self.password_input, password)
+        (
+            self.password_input.check_visible()
+            .type_text(password, delay=100)
+            .check_have_value(password)
+        )
