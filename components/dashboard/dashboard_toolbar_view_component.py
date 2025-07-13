@@ -1,6 +1,7 @@
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements import Text
 
 
 class DashboardToolbarViewComponent(BaseComponent):
@@ -8,7 +9,7 @@ class DashboardToolbarViewComponent(BaseComponent):
     Компонент верхней панели инструментов главной страницы (Dashboard).
 
     Атрибуты:
-        title: Локатор заголовка страницы.
+        title (Text): Текст заголовка элемента.
 
     Методы:
         check_visible: Проверяет, что заголовок страницы отображается корректно.
@@ -23,10 +24,12 @@ class DashboardToolbarViewComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.title = page.get_by_test_id("dashboard-toolbar-title-text")
+        self.title = Text(
+            page, "dashboard-toolbar-title-text", "Заголовок Dashboard Toolbar"
+        )
 
     def check_visible(self):
         """
         Проверяет, что заголовок страницы отображается корректно.
         """
-        self.check_locator(self.title, "Dashboard")
+        self.title.check_visible().check_have_text("Dashboard")

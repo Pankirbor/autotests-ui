@@ -1,19 +1,23 @@
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements import Icon, Text
 
 
 class EmptyViewComponent(BaseComponent):
     """
-    Компонент, представляющий пустой вид (empty view) на странице.
+    Компонент отображения сообщения об отсутствии данных.
+
+    Этот класс используется для проверки элементов, которые отображаются, когда данные не найдены,
+    например, при пустом списке курсов или результатов. Включает иконку, заголовок и описание.
 
     Атрибуты:
-        icon: Локатор иконки компонента.
-        title: Локатор заголовка компонента.
-        description: Локатор описания компонента.
+        icon (Icon): Иконка, отображающая состояние "пусто".
+        title (Text): Заголовок сообщения.
+        description (Text): Описание сообщения.
 
     Методы:
-        check_visible: Проверяет видимость элементов компонента с заданным заголовком и описанием.
+        check_visible: Проверяет видимость всех частей компонента и корректность текста.
     """
 
     def __init__(self, page: Page, identifier: str):
@@ -26,10 +30,12 @@ class EmptyViewComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.icon = page.get_by_test_id(f"{identifier}-empty-view-icon")
-        self.title = page.get_by_test_id(f"{identifier}-empty-view-title-text")
-        self.description = page.get_by_test_id(
-            f"{identifier}-empty-view-description-text"
+        self.icon = Icon(page, f"{identifier}-empty-view-icon", "Иконка EmptyView")
+        self.title = Text(
+            page, f"{identifier}-empty-view-title-text", "Заголовок EmptyView"
+        )
+        self.description = Text(
+            page, f"{identifier}-empty-view-description-text", "Описание EmptyView"
         )
 
     def check_visible(self, title: str, description: str):
@@ -40,6 +46,6 @@ class EmptyViewComponent(BaseComponent):
             title (str): Ожидаемый текст заголовка.
             description (str): Ожидаемый текст описания.
         """
-        self.check_locator(self.icon)
-        self.check_locator(self.title, title)
-        self.check_locator(self.description, description)
+        self.icon.check_visible()
+        self.title.check_visible().check_have_text(title)
+        self.description.check_visible().check_have_text(description)

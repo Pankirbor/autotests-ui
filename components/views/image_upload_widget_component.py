@@ -2,27 +2,31 @@ from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
 from components.views.empty_view_component import EmptyViewComponent
+from elements import Button, Icon, FileInput, Image, Text
 
 
 class ImageUploadWidgetComponent(BaseComponent):
     """
-    Компонент для работы с виджетом загрузки файла.
+    Компонент виджета загрузки файла.
+
+    Этот класс представляет элементы интерфейса, связанные с загрузкой и удалением файлов,
+    таких как кнопка загрузки, описание, иконка и изображение загруженного файла.
 
     Атрибуты:
-        file_type (str): Тип файла, связанный с виджетом.
-        empty_view (EmptyViewComponent): Экземпляр компонента пустого представления.
-        upload_icon: Локатор иконки загрузки.
-        upload_title: Локатор заголовка виджета.
-        upload_description: Локатор описания виджета.
-        upload_btn: Локатор кнопки загрузки файла.
-        upload_remove_btn: Локатор кнопки удаления файла.
-        upload_input: Локатор поля ввода файла.
-        file_view_uploaded: Локатор отображения загруженного файла.
+        file_type (str): Тип файла (например, 'image', 'document').
+        empty_view (EmptyViewComponent): Сообщение о том, что файл не выбран.
+        upload_icon (Icon): Иконка загрузки.
+        upload_title (Text): Заголовок окна загрузки.
+        upload_description (Text): Описание окна загрузки.
+        upload_btn (Button): Кнопка "Загрузить".
+        upload_remove_btn (Button): Кнопка "Удалить".
+        upload_input (FileInput): Поле для выбора файла.
+        file_view_uploaded (Image): Изображение или превью загруженного файла.
 
     Методы:
-        check_visible: Проверяет видимость элементов виджета.
-        upload_file: Выполняет загрузку файла по указанному пути.
-        click_remove_button: Кликает по кнопке удаления файла.
+        check_visible: Проверяет отображение элементов в зависимости от наличия загруженного файла.
+        upload_file: Загружает файл по указанному пути.
+        click_remove_button: Выполняет клик по кнопке удаления файла.
     """
 
     def __init__(self, page: Page, identifier: str, file_type: str):
@@ -39,28 +43,38 @@ class ImageUploadWidgetComponent(BaseComponent):
         self.file_type = file_type
 
         self.empty_view = EmptyViewComponent(page, identifier)
-        self.upload_icon = page.get_by_test_id(
-            f"{identifier}-{file_type}-upload-widget-info-icon"
+        self.upload_icon = Icon(
+            page, f"{identifier}-{file_type}-upload-widget-info-icon", "Иконка загрузки"
         )
-        self.upload_title = page.get_by_test_id(
-            f"{identifier}-{file_type}-upload-widget-info-title-text"
+        self.upload_title = Text(
+            page,
+            f"{identifier}-{file_type}-upload-widget-info-title-text",
+            "Заголовок окна загрузки",
         )
-        self.upload_description = page.get_by_test_id(
-            f"{identifier}-{file_type}-upload-widget-info-description-text"
+        self.upload_description = Text(
+            page,
+            f"{identifier}-{file_type}-upload-widget-info-description-text",
+            "Описание окна загрузки",
         )
-        self.upload_btn = page.get_by_test_id(
-            f"{identifier}-{file_type}-upload-widget-upload-button"
+        self.upload_btn = Button(
+            page,
+            f"{identifier}-{file_type}-upload-widget-upload-button",
+            "Кнопка загрузки",
         )
 
-        self.upload_remove_btn = page.get_by_test_id(
-            f"{identifier}-{file_type}-upload-widget-remove-button"
+        self.upload_remove_btn = Button(
+            page,
+            f"{identifier}-{file_type}-upload-widget-remove-button",
+            "Кнопка удаления изображения",
         )
-        self.upload_input = page.get_by_test_id(
-            f"{identifier}-{file_type}-upload-widget-input"
+        self.upload_input = FileInput(
+            page, f"{identifier}-{file_type}-upload-widget-input", "Поле выбора файла"
         )
 
-        self.file_view_uploaded = page.get_by_test_id(
-            f"{identifier}-{file_type}-upload-widget-preview-{file_type}"
+        self.file_view_uploaded = Image(
+            page,
+            f"{identifier}-{file_type}-upload-widget-preview-{file_type}",
+            "Изображение курса",
         )
 
     def check_visible(self, is_file_uploaded: bool = False):
@@ -70,16 +84,16 @@ class ImageUploadWidgetComponent(BaseComponent):
         Аргументы:
             is_file_uploaded (bool): Флаг, указывающий, был ли файл загружен.
         """
-        self.check_locator(self.upload_icon)
-        self.check_locator(
-            self.upload_title,
+        self.upload_icon.check_visible()
+
+        self.upload_title.check_visible().check_have_text(
             f'Tap on "Upload {self.file_type}" button to select file',
         )
-        self.check_locator(
-            self.upload_description,
-            "Recommended file size 540X300",
+
+        self.upload_description.check_visible().check_have_text(
+            "Recommended file size 540X300"
         )
-        self.check_locator(self.upload_btn)
+        self.upload_btn.check_visible()
 
         if not is_file_uploaded:
             self.empty_view.check_visible(
@@ -87,8 +101,8 @@ class ImageUploadWidgetComponent(BaseComponent):
                 description=f"Preview of selected {self.file_type} will be displayed here",
             )
         else:
-            self.check_locator(self.upload_remove_btn)
-            self.check_locator(self.file_view_uploaded)
+            self.upload_remove_btn.check_visible()
+            self.file_view_uploaded.check_visible()
 
     def upload_file(self, file_path: str):
         """
@@ -97,10 +111,10 @@ class ImageUploadWidgetComponent(BaseComponent):
         Аргументы:
             file_path (str): Путь к файлу на локальной машине.
         """
-        self.upload_input.set_input_files(file_path)
+        self.upload_input.check_visible().set_input_files(file_path)
 
     def click_remove_button(self):
         """
         Выполняет клик по кнопке удаления загруженного файла.
         """
-        self.upload_remove_btn.click()
+        self.upload_remove_btn.check_visible().click()
