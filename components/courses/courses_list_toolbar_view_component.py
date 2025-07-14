@@ -3,19 +3,23 @@ import re
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements import Button, Text
 
 
 class CoursesListToolbarViewComponent(BaseComponent):
     """
-    Компонент верхней панели инструментов списка курсов.
+    Компонент верхней панели управления списком курсов.
+
+    Этот класс представляет элементы интерфейса, расположенные в верхней части страницы списка курсов,
+    такие как заголовок и кнопка создания нового курса.
 
     Атрибуты:
-        title: Локатор заголовка панели.
-        create_course_btn: Локатор кнопки создания нового курса.
+        title (Text): Заголовок панели "Courses".
+        create_course_btn (Button): Кнопка для создания нового курса.
 
     Методы:
-        check_visible: Проверяет видимость элементов панели.
-        click_create_course_btn: Кликает по кнопке создания курса и проверяет переход на соответствующую страницу.
+        check_visible: Проверяет видимость заголовка и кнопки.
+        click_create_course_btn: Выполняет клик по кнопке создания курса и проверяет URL.
     """
 
     def __init__(self, page: Page):
@@ -27,21 +31,23 @@ class CoursesListToolbarViewComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.title = page.get_by_test_id("courses-list-toolbar-title-text")
-        self.create_course_btn = page.get_by_test_id(
-            "courses-list-toolbar-create-course-button"
+        self.title = Text(
+            page, "courses-list-toolbar-title-text", "Заголовок панели Courses"
+        )
+        self.create_course_btn = Button(
+            page, "courses-list-toolbar-create-course-button", "Кнопка создания курса"
         )
 
     def check_visible(self):
         """
         Проверяет, что заголовок и кнопка создания курса отображаются корректно.
         """
-        self.check_locator(self.title, "Courses")
-        self.check_locator(self.create_course_btn)
+        self.title.check_visible().check_have_text("Courses")
+        self.create_course_btn.check_visible()
 
     def click_create_course_btn(self):
         """
         Выполняет клик по кнопке создания курса и проверяет URL текущей страницы.
         """
-        self.create_course_btn.click()
+        self.create_course_btn.check_visible().click()
         self.check_current_url(re.compile(r".*/#/courses/create"))

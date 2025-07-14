@@ -35,38 +35,38 @@ class BaseElement:
         self.locator_path = locator_path
         self.name = name
 
-    def get_locator(self, **kwargs) -> Locator:
+    def get_locator(self, nth: int = 0, **kwargs) -> Locator:
         """
         Возвращает локатор элемента, используя переданные параметры для форматирования пути.
 
         Возвращает:
             Locator: Локатор элемента на странице.
         """
-        return self.page.get_by_test_id(self.locator_path.format(**kwargs))
+        return self.page.get_by_test_id(self.locator_path.format(**kwargs)).nth(nth)
 
-    def click(self, **kwargs):
+    def click(self, nth: int = 0, **kwargs):
         """
         Выполняет клик по элементу.
         """
-        self.get_locator(**kwargs).click()
+        self.get_locator(nth, **kwargs).click()
 
-    def check_visible(self, **kwargs) -> Self:
+    def check_visible(self, nth: int = 0, **kwargs) -> Self:
         """
         Проверяет, что элемент отображается на странице.
 
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        locator = self.get_locator(**kwargs)
+        locator = self.get_locator(nth, **kwargs)
         expect(locator).to_be_visible()
         return self
 
-    def check_have_text(self, text: str, **kwargs):
+    def check_have_text(self, text: str, nth: int = 0, **kwargs):
         """
         Проверяет, что элемент содержит указанный текст.
 
         Аргументы:
             text (str): Ожидаемый текст в элементе.
         """
-        locator = self.get_locator(**kwargs)
+        locator = self.get_locator(nth, **kwargs)
         expect(locator).to_have_text(text)

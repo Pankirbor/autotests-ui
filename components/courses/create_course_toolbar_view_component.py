@@ -3,19 +3,23 @@ import re
 from playwright.sync_api import Page, expect
 
 from components.base_component import BaseComponent
+from elements import Button, Text
 
 
 class CreateCourseToolbarViewComponent(BaseComponent):
     """
-    Компонент верхней панели инструментов страницы создания курса.
+    Компонент верхней панели управления при создании курса.
+
+    Этот класс представляет элементы интерфейса, связанные с процессом создания нового курса,
+    такие как заголовок и кнопка "Создать курс".
 
     Атрибуты:
-        title: Локатор заголовка панели.
-        create_course_btn: Локатор кнопки "Создать курс".
+        title (Text): Заголовок панели "Create course".
+        create_course_btn (Button): Кнопка для завершения создания курса.
 
     Методы:
-        check_visible: Проверяет видимость элементов и состояние кнопки.
-        click_create_course_btn: Кликает по кнопке "Создать курс" и проверяет переход на страницу курсов.
+        check_visible: Проверяет видимость заголовка и состояние кнопки.
+        click_create_course_btn: Выполняет клик по кнопке "Создать курс" и проверяет переход на страницу курсов.
     """
 
     def __init__(self, page: Page):
@@ -27,22 +31,25 @@ class CreateCourseToolbarViewComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.title = page.get_by_test_id("create-course-toolbar-title-text")
-        self.create_course_btn = page.get_by_test_id(
-            "create-course-toolbar-create-course-button"
+        self.title = Text(
+            page, "create-course-toolbar-title-text", "Заголовок панели Create course"
+        )
+        self.create_course_btn = Button(
+            page,
+            "create-course-toolbar-create-course-button",
+            "Кнопка создать курс",
         )
 
     def check_visible(self):
         """
         Проверяет, что заголовок отображается корректно и кнопка "Создать курс" отключена.
         """
-        self.check_locator(self.title, "Create course")
-        expect(self.create_course_btn).to_be_disabled()
+        self.title.check_visible().check_have_text("Create course")
+        self.create_course_btn.check_disabled()
 
     def click_create_course_btn(self):
         """
         Кликает по кнопке "Создать курс" и проверяет переход на страницу курсов.
         """
-        self.check_locator(self.create_course_btn)
-        self.create_course_btn.click()
+        self.create_course_btn.check_visible().click()
         self.check_current_url(re.compile(r".*/#/courses"))

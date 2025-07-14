@@ -1,22 +1,26 @@
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements import Input, Textarea
 
 
 class CreateCourseFormComponent(BaseComponent):
     """
     Компонент формы создания курса.
 
+    Этот класс представляет элементы интерфейса, связанные с заполнением данных при создании нового курса.
+    Содержит поля для ввода заголовка, времени прохождения, описания, максимального и минимального баллов.
+
     Атрибуты:
-        title_input: Локатор поля ввода заголовка курса.
-        time_input: Локатор поля ввода оценочного времени.
-        description_input: Локатор поля ввода описания курса.
-        max_score_input: Локатор поля ввода максимального балла.
-        min_score_input: Локатор поля ввода минимального балла.
+        title_input (Input): Поле ввода заголовка курса.
+        time_input (Input): Поле ввода времени прохождения курса.
+        description_input (Textarea): Поле ввода описания курса.
+        max_score_input (Input): Поле ввода максимального балла.
+        min_score_input (Input): Поле ввода минимального балла.
 
     Методы:
-        check_visible: Проверяет, что поля формы отображаются и содержат ожидаемые значения.
-        fill: Заполняет поля формы значениями.
+        check_visible: Проверяет видимость полей и их значения.
+        fill: Заполняет поля данными.
     """
 
     def __init__(self, page: Page):
@@ -28,23 +32,23 @@ class CreateCourseFormComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.title_input = page.get_by_test_id(
-            "create-course-form-title-input"
-        ).locator("input")
-        self.time_input = page.get_by_test_id(
-            "create-course-form-estimated-time-input"
-        ).locator("input")
-        self.description_input = (
-            page.get_by_test_id("create-course-form-description-input")
-            .locator("textarea")
-            .first
+        self.title_input = Input(
+            page, "create-course-form-title-input", "Поле ввода заголовка"
         )
-        self.max_score_input = page.get_by_test_id(
-            "create-course-form-max-score-input"
-        ).locator("input")
-        self.min_score_input = page.get_by_test_id(
-            "create-course-form-min-score-input"
-        ).locator("input")
+        self.time_input = Input(
+            page,
+            "create-course-form-estimated-time-input",
+            "Поле ввода оценочного времени",
+        )
+        self.description_input = Textarea(
+            page, "create-course-form-description-input", "Поле ввода описания"
+        )
+        self.max_score_input = Input(
+            page, "create-course-form-max-score-input", "Поле ввода макс. балла"
+        )
+        self.min_score_input = Input(
+            page, "create-course-form-min-score-input", "Поле ввода мин. балла"
+        )
 
     def check_visible(
         self,
@@ -64,11 +68,11 @@ class CreateCourseFormComponent(BaseComponent):
             max_score (str): Ожидаемое значение максимального балла.
             min_score (str): Ожидаемое значение минимального балла.
         """
-        self.check_input_locator(self.title_input, title)
-        self.check_input_locator(self.description_input, description)
-        self.check_input_locator(self.time_input, estimated_time)
-        self.check_input_locator(self.max_score_input, max_score)
-        self.check_input_locator(self.min_score_input, min_score)
+        self.title_input.check_visible().check_have_value(title)
+        self.description_input.check_visible().check_have_value(description)
+        self.time_input.check_visible().check_have_value(estimated_time)
+        self.max_score_input.check_visible().check_have_value(max_score)
+        self.min_score_input.check_visible().check_have_value(min_score)
 
     def fill(
         self,
@@ -88,17 +92,32 @@ class CreateCourseFormComponent(BaseComponent):
             max_score (str): Максимальный балл.
             min_score (str): Минимальный балл.
         """
-        self.title_input.type(title, delay=100)
-        self.check_input_locator(self.title_input, title)
+        (
+            self.title_input.check_visible()
+            .type_text(title, delay=100)
+            .check_have_value(title)
+        )
 
-        self.description_input.type(description, delay=100)
-        self.check_input_locator(self.description_input, description)
+        (
+            self.description_input.check_visible()
+            .type_text(description, delay=100)
+            .check_have_value(description)
+        )
 
-        self.time_input.type(estimated_time, delay=100)
-        self.check_input_locator(self.time_input, estimated_time)
+        (
+            self.time_input.check_visible()
+            .type_text(estimated_time, delay=100)
+            .check_have_value(estimated_time)
+        )
 
-        self.max_score_input.type(max_score, delay=100)
-        self.check_input_locator(self.max_score_input, max_score)
+        (
+            self.max_score_input.check_visible()
+            .type_text(max_score, delay=100)
+            .check_have_value(max_score)
+        )
 
-        self.min_score_input.type(min_score, delay=100)
-        self.check_input_locator(self.min_score_input, min_score)
+        (
+            self.min_score_input.check_visible()
+            .type_text(min_score, delay=100)
+            .check_have_value(min_score)
+        )

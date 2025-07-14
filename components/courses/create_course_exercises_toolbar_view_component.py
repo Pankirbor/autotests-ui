@@ -1,19 +1,23 @@
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements import Button, Text
 
 
 class CreateCourseExercisesToolbarViewComponent(BaseComponent):
     """
-    Компонент верхней панели инструментов раздела упражнений при создании курса.
+    Компонент верхней панели управления упражнениями при создании курса.
+
+    Этот класс представляет элементы интерфейса, связанные с добавлением упражнений в процессе создания курса,
+    такие как заголовок и кнопка для создания нового упражнения.
 
     Атрибуты:
-        title: Локатор заголовка панели.
-        create_exercise_btn: Локатор кнопки "Создать упражнение".
+        title (Text): Заголовок панели "Exercises".
+        create_exercise_btn (Button): Кнопка для создания нового упражнения.
 
     Методы:
-        check_visible: Проверяет видимость заголовка и кнопки создания упражнения.
-        click_create_exercise_btn: Кликает по кнопке "Создать упражнение".
+        check_visible: Проверяет видимость заголовка и кнопки.
+        click_create_exercise_btn: Выполняет клик по кнопке создания упражнения.
     """
 
     def __init__(self, page: Page):
@@ -25,23 +29,26 @@ class CreateCourseExercisesToolbarViewComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.title = page.get_by_test_id(
-            "create-course-exercises-box-toolbar-title-text"
+        self.title = Text(
+            page,
+            "create-course-exercises-box-toolbar-title-text",
+            "Заголовок панели Exercises",
         )
-        self.create_exercise_btn = page.get_by_test_id(
-            "create-course-exercises-box-toolbar-create-exercise-button"
+        self.create_exercise_btn = Button(
+            page,
+            "create-course-exercises-box-toolbar-create-exercise-button",
+            "Кнопка создания упражнения",
         )
 
     def check_visible(self):
         """
         Проверяет, что заголовок и кнопка создания упражнения отображаются корректно.
         """
-        self.check_locator(self.title, "Exercises")
-        self.check_locator(self.create_exercise_btn)
+        self.title.check_visible().check_have_text("Exercises")
+        self.create_exercise_btn.check_visible()
 
     def click_create_exercise_btn(self):
         """
         Выполняет клик по кнопке создания упражнения.
         """
-        self.check_locator(self.create_exercise_btn)
-        self.create_exercise_btn.click()
+        self.create_exercise_btn.check_visible().click()

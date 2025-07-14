@@ -1,20 +1,24 @@
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
+from elements import Button
 
 
 class CourseViewMenuComponent(BaseComponent):
     """
-    Компонент меню просмотра курса.
+    Компонент меню управления курсом.
+
+    Этот класс представляет меню, которое появляется при нажатии на кнопку "Menu" в интерфейсе просмотра курса.
+    Содержит кнопки для редактирования и удаления курса.
 
     Атрибуты:
-        menu_btn: Локатор кнопки меню.
-        edit_menu_item: Локатор пункта меню "Edit".
-        delete_menu_item: Локатор пункта меню "Delete".
+        menu_btn (Button): Кнопка для открытия меню.
+        edit_menu_item (Button): Кнопка "Edit".
+        delete_menu_item (Button): Кнопка "Delete".
 
     Методы:
-        click_edit: Кликает по кнопке меню и выбирает пункт "Edit".
-        click_delete: Кликает по кнопке меню и выбирает пункт "Delete".
+        click_edit: Открывает меню и выбирает опцию редактирования.
+        click_delete: Открывает меню и выбирает опцию удаления.
     """
 
     def __init__(self, page: Page):
@@ -26,9 +30,11 @@ class CourseViewMenuComponent(BaseComponent):
         """
         super().__init__(page)
 
-        self.menu_btn = page.get_by_test_id("course-view-menu-button")
-        self.edit_menu_item = page.get_by_test_id("course-view-edit-menu-item")
-        self.delete_menu_item = page.get_by_test_id("course-view-delete-menu-item")
+        self.menu_btn = Button(page, "course-view-menu-button", "Кнопка Menu курса")
+        self.edit_menu_item = Button(page, "course-view-edit-menu-item", "Кнопка Edit")
+        self.delete_menu_item = Button(
+            page, "course-view-delete-menu-item", "Кнопка Delete"
+        )
 
     def click_edit(self, index: int):
         """
@@ -37,10 +43,8 @@ class CourseViewMenuComponent(BaseComponent):
         Аргументы:
             index (int): Индекс элемента в списке.
         """
-        self.menu_btn.nth(index).click()
-
-        self.check_locator(self.edit_menu_item)
-        self.edit_menu_item.nth(index).click()
+        self.menu_btn.check_visible(nth=index).click(nth=index)
+        self.edit_menu_item.check_visible(nth=index).click(nth=index)
 
     def click_delete(self, index: int):
         """
@@ -49,7 +53,5 @@ class CourseViewMenuComponent(BaseComponent):
         Аргументы:
             index (int): Индекс элемента в списке.
         """
-        self.menu_btn.nth(index).click()
-
-        self.check_locator(self.delete_menu_item)
-        self.delete_menu_item.nth(index).click()
+        self.menu_btn.check_visible(nth=index).click(nth=index)
+        self.delete_menu_item.check_visible(nth=index).click(nth=index)

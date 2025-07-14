@@ -2,22 +2,26 @@ from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
 from components.courses.course_view_menu_component import CourseViewMenuComponent
+from elements import Image, Text
 
 
 class CourseViewComponent(BaseComponent):
     """
-    Компонент представления курса на странице.
+    Компонент представления курса.
+
+    Этот класс представляет элементы интерфейса, отображающие информацию о конкретном курсе:
+    заголовок, изображение, баллы и время прохождения. Также содержит меню управления курсом.
 
     Атрибуты:
         menu_course (CourseViewMenuComponent): Меню управления курсом.
-        title: Локатор заголовка курса.
-        image: Локатор изображения курса.
-        max_score: Локатор максимального балла.
-        min_score: Локатор минимального балла.
-        estimated_time: Локатор оценочного времени.
+        title (Text): Заголовок курса.
+        image (Image): Изображение курса.
+        max_score (Text): Максимальный балл за курс.
+        min_score (Text): Минимальный балл для успешного завершения.
+        estimated_time (Text): Продолжительность курса.
 
     Методы:
-        check_visible: Проверяет видимость и корректность отображения элементов курса.
+        check_visible: Проверяет видимость и корректность отображаемых данных.
     """
 
     def __init__(self, page: Page):
@@ -31,14 +35,16 @@ class CourseViewComponent(BaseComponent):
 
         self.menu_course = CourseViewMenuComponent(page)
 
-        self.title = page.get_by_test_id("course-widget-title-text")
-        self.image = page.get_by_test_id("course-preview-image")
-        self.max_score = page.get_by_test_id("course-max-score-info-row-view-text")
-        self.min_score = page.get_by_test_id("course-min-score-info-row-view-text")
-        self.estimated_time = page.get_by_test_id(
-            "course-estimated-time-info-row-view-text"
+        self.title = Text(page, "course-widget-title-text", "Заголовок курса")
+        self.image = Image(page, "course-preview-image", "Картинка курса")
+        self.max_score = Text(page, "course-max-score-info-row-view-text", "Макс. балл")
+        self.min_score = Text(page, "course-min-score-info-row-view-text", "Мин. балл")
+        self.estimated_time = Text(
+            page,
+            "course-estimated-time-info-row-view-text",
+            "Продолжительность курса",
         )
-        self.course_menu_btn = page.get_by_test_id("course-view-menu-button")
+        # self.course_menu_btn = page.get_by_test_id("course-view-menu-button")
 
     def check_visible(
         self,
@@ -58,12 +64,17 @@ class CourseViewComponent(BaseComponent):
             min_score (str): Ожидаемый минимальный балл.
             estimated_time (str): Ожидаемое время прохождения курса.
         """
-        self.check_locator(self.title.nth(index), title)
-        self.check_locator(self.course_menu_btn.nth(index))
-        self.check_locator(self.image.nth(index))
-        self.check_locator(
-            self.estimated_time.nth(index),
-            f"Estimated time: {estimated_time}",
+        self.title.check_visible(nth=index).check_have_text(title, nth=index)
+        self.menu_course.menu_btn.check_visible(nth=index)
+        self.image.check_visible(nth=index)
+
+        self.estimated_time.check_visible(nth=index).check_have_text(
+            f"Estimated time: {estimated_time}", nth=index
         )
-        self.check_locator(self.max_score.nth(index), f"Max score: {max_score}")
-        self.check_locator(self.min_score.nth(index), f"Min score: {min_score}")
+
+        self.max_score.check_visible(nth=index).check_have_text(
+            f"Max score: {max_score}", nth=index
+        )
+        self.min_score.check_visible(nth=index).check_have_text(
+            f"Min score: {min_score}", nth=index
+        )
