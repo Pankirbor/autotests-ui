@@ -1,3 +1,4 @@
+from typing import Self
 from playwright.sync_api import expect, Locator
 
 
@@ -85,4 +86,19 @@ class Textarea(BaseElement):
             timeout=timeout,
             no_wait_after=no_wait_after,
         )
+        return self
+
+    def clear(self, nth: int = 0, **kwargs) -> Self:
+        """
+        Очищает поле ввода.
+
+        Аргументы:
+            nth (int): Индекс элемента, если на странице несколько одинаковых полей.
+            **kwargs: Дополнительные параметры для форматирования локатора.
+
+        Возвращает:
+            Self: Экземпляр текущего объекта для цепочки вызовов.
+        """
+        locator = self.get_locator(nth, **kwargs)
+        locator.clear()
         return self

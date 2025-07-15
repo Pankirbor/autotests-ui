@@ -1,3 +1,5 @@
+from typing import Pattern
+
 from playwright.sync_api import Page, Locator, expect
 
 
@@ -65,3 +67,12 @@ class BasePage:
         expect(locator).to_be_visible()
         if text:
             expect(locator).to_have_value(text)
+
+    def check_current_url(self, expected_url: Pattern[str]) -> None:
+        """
+        Проверяет, что текущий URL совпадает с ожидаемым.
+
+        Аргументы:
+            url (Pattern[str]): Регулярное выражение или строка ожидаемого URL.
+        """
+        expect(self.page).to_have_url(expected_url)

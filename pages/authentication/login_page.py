@@ -1,3 +1,4 @@
+import re
 from playwright.sync_api import Page
 
 from components.authentication import LoginFormComponent
@@ -52,12 +53,14 @@ class LoginPage(BasePage):
         Кликает по кнопке "Login" после проверки её видимости.
         """
         self.login_btn.check_visible().click()
+        self.check_current_url(re.compile(r".*/#/dashboard"))
 
     def click_registration_link(self):
         """
         Кликает по ссылке "Registration" после проверки её видимости.
         """
         self.registration_link.check_visible().click()
+        self.check_current_url(re.compile(r".*/#/auth/registration"))
 
     def check_visible_login_page_title(self):
         """

@@ -94,30 +94,35 @@ class CreateCourseFormComponent(BaseComponent):
         """
         (
             self.title_input.check_visible()
+            .clear()
             .type_text(title, delay=100)
             .check_have_value(title)
         )
 
         (
             self.description_input.check_visible()
+            .clear()
             .type_text(description, delay=100)
             .check_have_value(description)
         )
 
         (
             self.time_input.check_visible()
+            .clear()
             .type_text(estimated_time, delay=100)
             .check_have_value(estimated_time)
         )
 
         (
             self.max_score_input.check_visible()
+            .clear()
             .type_text(max_score, delay=100)
             .check_have_value(max_score)
         )
 
         (
             self.min_score_input.check_visible()
+            .clear()
             .type_text(min_score, delay=100)
             .check_have_value(min_score)
         )

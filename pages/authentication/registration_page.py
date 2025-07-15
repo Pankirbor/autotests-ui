@@ -1,6 +1,6 @@
 import re
 
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page
 
 from components.authentication import RegistrationFormComponent
 from elements import Button, Link, Text
@@ -46,14 +46,14 @@ class RegistrationPage(BasePage):
         Кликает по кнопке "Registration" и проверяет, что пользователь перешел на Dashboard.
         """
         self.registration_btn.check_visible().click()
-        expect(self.page).to_have_url(re.compile(r".*/#/dashboard"))
+        self.check_current_url(re.compile(r".*/#/dashboard"))
 
     def click_login_link(self) -> None:
         """
         Кликает по ссылке "Login" и проверяет, что пользователь перешел на страницу входа.
         """
         self.login_link.check_visible().click()
-        expect(self.page).to_have_url(re.compile(r".*/#/auth/login"))
+        self.check_current_url(re.compile(r".*/#/auth/login"))
 
     def check_visible_page_title(self):
         """

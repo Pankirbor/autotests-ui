@@ -4,6 +4,8 @@ import pytest
 
 from playwright.sync_api import Playwright, Page
 
+from pages import RegistrationPage
+
 
 @pytest.fixture
 def chromium_page(playwright: Playwright) -> Generator[Page, None, None]:
@@ -15,27 +17,29 @@ def chromium_page(playwright: Playwright) -> Generator[Page, None, None]:
 
 @pytest.fixture(scope="session")
 def initialize_browser_state(playwright: Playwright) -> None:
+    """
+    Фикстура для инициализации браузера и сохранения состояния после регистрации.
+
+    Эта фикстура запускается один раз за сессию тестирования. Она открывает браузер,
+    регистрирует нового пользователя на странице регистрации и сохраняет состояние контекста
+    в файл `browser-state.json`, чтобы использовать его в последующих тестах.
+
+    Аргументы:
+        playwright (Playwright): Объект Playwright для управления браузером.
+
+    Возвращает:
+        None
+    """
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
 
-    page.goto(
-        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration",
-        wait_until="networkidle",
+    registration_page = RegistrationPage(page)
+    registration_page.visit(
+        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration"
     )
-
-    registration_btn = page.get_by_test_id("registration-page-registration-button")
-
-    fields = ("email", "username", "password")
-    values = ("user.name@gmail.com", "username", "password")
-    for field, value in zip(fields, values):
-        page.get_by_test_id(f"registration-form-{field}-input").locator("input").type(
-            value,
-            delay=200,
-        )
-
-    registration_btn.click()
-
+    registration_page.form.fill("user.name@gmail.com", "username", "password")
+    registration_page.click_registration_btn()
     context.storage_state(path="browser-state.json")
     browser.close()
 
