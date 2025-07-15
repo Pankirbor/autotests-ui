@@ -1,11 +1,25 @@
+import allure
 import pytest
 
+from allure_commons.types import Severity
+
 from pages.dashboard.dashboard_page import DashboardPage
+from tools.allure import AllureEpic, AllureFeature, AllureStory, AllureTag
 
 
 @pytest.mark.regression
 @pytest.mark.dashboard
+@allure.epic(AllureEpic.LMS)
+@allure.feature(AllureFeature.DASHBOARD_UI)
+@allure.parent_suite(AllureEpic.LMS)
+@allure.suite(AllureFeature.DASHBOARD_UI)
 class TestDashboard:
+
+    @allure.title("Check displaying of dashboard page")
+    @allure.tag(AllureTag.POSITIVE)
+    @allure.story(AllureStory.DASHBOARD_DISPLAY)
+    @allure.sub_suite(AllureStory.DASHBOARD_DISPLAY)
+    @allure.severity(Severity.CRITICAL)
     def test_dashboard_displaying(self, dashboard_page_with_state: DashboardPage):
         """
         Тест проверяет отображение всех элементов на странице Dashboard.

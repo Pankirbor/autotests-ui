@@ -2,11 +2,13 @@ import pytest
 
 from playwright.sync_api import Page
 
-from pages.login_page import LoginPage
-from pages.dashboard_page import DashboardPage
-from pages.registration_page import RegistrationPage
-from pages.courses_list_page import CoursesListPage
-from pages.create_course_page import CreateCoursePage
+from pages import (
+    LoginPage,
+    DashboardPage,
+    RegistrationPage,
+    CoursesListPage,
+    CreateCoursePage,
+)
 
 
 @pytest.fixture

@@ -1,13 +1,34 @@
+import allure
 import pytest
 
+from allure_commons.types import Severity
+
 from dto.course_dto import CourseDto
-from pages.courses.courses_list_page import CoursesListPage
-from pages.courses.create_course_page import CreateCoursePage
+from pages import CoursesListPage, CreateCoursePage
+from tools.allure import AllureEpic, AllureFeature, AllureStory, AllureTag
 
 
 @pytest.mark.regression
 @pytest.mark.courses
+@allure.epic(AllureEpic.LMS)
+@allure.feature(AllureFeature.COURSES)
+@allure.parent_suite(AllureEpic.LMS)
+@allure.suite(AllureFeature.COURSES)
 class TestCourses:
+    """
+    Тест-кейсы, связанные с функционалом создания и редактирования курсов.
+
+    Этот класс содержит тесты для проверки корректности работы функций:
+    - Создания нового курса.
+    - Проверки отображения пустого списка курсов.
+    - Редактирования существующего курса.
+    """
+
+    @allure.title("Check displaying of empty courses list")
+    @allure.tag(AllureTag.POSITIVE)
+    @allure.story(AllureStory.EMPTY_COURSES_LIST)
+    @allure.sub_suite(AllureStory.EMPTY_COURSES_LIST)
+    @allure.severity(Severity.NORMAL)
     def test_empty_courses_list(self, courses_list_page: CoursesListPage):
         """
         Тест проверяет отображение страницы курсов при пустом списке курсов.
@@ -39,6 +60,11 @@ class TestCourses:
         courses_list_page.toolbar.check_visible()
         courses_list_page.check_visible_empty_view()
 
+    @allure.title("Create course")
+    @allure.tag(AllureTag.POSITIVE)
+    @allure.story(AllureStory.CREATE_COURSE)
+    @allure.sub_suite(AllureStory.CREATE_COURSE)
+    @allure.severity(Severity.CRITICAL)
     def test_create_course(
         self, create_course_page: CreateCoursePage, courses_list_page: CoursesListPage
     ):
@@ -110,6 +136,11 @@ class TestCourses:
             min_score="10",
         )
 
+    @allure.title("Edit course")
+    @allure.tag(AllureTag.POSITIVE, AllureTag.END2END)
+    @allure.story(AllureStory.EDIT_COURSE)
+    @allure.sub_suite(AllureStory.EDIT_COURSE)
+    @allure.severity(Severity.CRITICAL)
     def test_edit_course(
         self,
         create_course_page: CreateCoursePage,
