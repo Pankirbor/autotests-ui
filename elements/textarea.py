@@ -1,4 +1,7 @@
 from typing import Self
+
+import allure
+
 from playwright.sync_api import expect, Locator
 
 
@@ -41,8 +44,9 @@ class Textarea(BaseElement):
             nth (int): Индекс элемента, если на странице несколько одинаковых текстовых областей.
             **kwargs: Дополнительные параметры для форматирования локатора.
         """
-        self.get_locator(nth, **kwargs).fill(value)
-        return self
+        with allure.step(f"Fill {self.type_of} '{self.name}' to value '{value}'"):
+            self.get_locator(nth, **kwargs).fill(value)
+            return self
 
     def check_have_value(self, value: str, nth: int = 0, **kwargs):
         """
@@ -53,8 +57,11 @@ class Textarea(BaseElement):
             nth (int): Индекс элемента, если на странице несколько одинаковых текстовых областей.
             **kwargs: Дополнительные параметры для форматирования локатора.
         """
-        locator = self.get_locator(nth, **kwargs)
-        expect(locator).to_have_value(value)
+        with allure.step(
+            f"Checking that {self.type_of} '{self.name}' has a value '{value}'"
+        ):
+            locator = self.get_locator(nth, **kwargs)
+            expect(locator).to_have_value(value)
 
     def type_text(
         self,
@@ -79,14 +86,17 @@ class Textarea(BaseElement):
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        locator = self.get_locator(nth, **kwargs)
-        locator.type(
-            text,
-            delay=delay,
-            timeout=timeout,
-            no_wait_after=no_wait_after,
-        )
-        return self
+        with allure.step(
+            f"Fill {self.type_of} '{self.name}' to value {text} with delayed typing"
+        ):
+            locator = self.get_locator(nth, **kwargs)
+            locator.type(
+                text,
+                delay=delay,
+                timeout=timeout,
+                no_wait_after=no_wait_after,
+            )
+            return self
 
     def clear(self, nth: int = 0, **kwargs) -> Self:
         """
@@ -99,6 +109,7 @@ class Textarea(BaseElement):
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        locator = self.get_locator(nth, **kwargs)
-        locator.clear()
-        return self
+        with allure.step(f"Clearing a {self.type_of} '{self.name}' of values"):
+            locator = self.get_locator(nth, **kwargs)
+            locator.clear()
+            return self

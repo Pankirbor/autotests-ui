@@ -1,4 +1,5 @@
 import re
+import allure
 from playwright.sync_api import Page
 
 from components.authentication import LoginFormComponent
@@ -68,6 +69,7 @@ class LoginPage(BasePage):
         """
         self.title_page.check_visible().check_have_text("UI Course")
 
+    @allure.step("Check visible wrong email or password alert")
     def check_visible_wrong_email_or_password_alert(self):
         """
         Проверяет, что отображается уведомление о неверной электронной почте или пароле.

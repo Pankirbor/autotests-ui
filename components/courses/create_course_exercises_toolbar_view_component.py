@@ -1,3 +1,5 @@
+import allure
+
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
@@ -40,6 +42,7 @@ class CreateCourseExercisesToolbarViewComponent(BaseComponent):
             "Кнопка создания упражнения",
         )
 
+    @allure.step("Check visible Exercise Toolbar")
     def check_visible(self):
         """
         Проверяет, что заголовок и кнопка создания упражнения отображаются корректно.

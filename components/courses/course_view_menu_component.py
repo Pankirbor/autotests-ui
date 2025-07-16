@@ -1,3 +1,5 @@
+import allure
+
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
@@ -36,6 +38,7 @@ class CourseViewMenuComponent(BaseComponent):
             page, "course-view-delete-menu-item", "Кнопка Delete"
         )
 
+    @allure.step('Open course menu at index "{index}" and click edit')
     def click_edit(self, index: int):
         """
         Открывает меню и выбирает опцию редактирования для элемента с указанным индексом.
@@ -46,6 +49,7 @@ class CourseViewMenuComponent(BaseComponent):
         self.menu_btn.check_visible(nth=index).click(nth=index)
         self.edit_menu_item.check_visible(nth=index).click(nth=index)
 
+    @allure.step('Open course menu at index "{index}" and click delete')
     def click_delete(self, index: int):
         """
         Открывает меню и выбирает опцию удаления для элемента с указанным индексом.

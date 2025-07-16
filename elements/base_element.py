@@ -1,5 +1,7 @@
 from typing import Self
 
+import allure
+
 from playwright.sync_api import Page, Locator, expect
 
 
@@ -35,6 +37,10 @@ class BaseElement:
         self.locator_path = locator_path
         self.name = name
 
+    @property
+    def type_of(self):
+        return self.__class__.__name__
+
     def get_locator(self, nth: int = 0, **kwargs) -> Locator:
         """
         Возвращает локатор элемента, используя переданные параметры для форматирования пути.
@@ -42,13 +48,18 @@ class BaseElement:
         Возвращает:
             Locator: Локатор элемента на странице.
         """
-        return self.page.get_by_test_id(self.locator_path.format(**kwargs)).nth(nth)
+        locator = self.locator_path.format(**kwargs)
+        with allure.step(
+            f"Getting locator with 'data-testid={locator}' at index' {nth}'"
+        ):
+            return self.page.get_by_test_id(locator).nth(nth)
 
     def click(self, nth: int = 0, **kwargs):
         """
         Выполняет клик по элементу.
         """
-        self.get_locator(nth, **kwargs).click()
+        with allure.step(f"Clicking {self.type_of} '{self.name}'"):
+            self.get_locator(nth, **kwargs).click()
 
     def check_visible(self, nth: int = 0, **kwargs) -> Self:
         """
@@ -57,8 +68,8 @@ class BaseElement:
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        locator = self.get_locator(nth, **kwargs)
-        expect(locator).to_be_visible()
+        with allure.step(f"Checking that {self.type_of} '{self.name}' is visible"):
+            expect(self.get_locator(nth, **kwargs)).to_be_visible()
         return self
 
     def check_have_text(self, text: str, nth: int = 0, **kwargs):
@@ -68,5 +79,7 @@ class BaseElement:
         Аргументы:
             text (str): Ожидаемый текст в элементе.
         """
-        locator = self.get_locator(nth, **kwargs)
-        expect(locator).to_have_text(text)
+        with allure.step(
+            f"Checking that {self.type_of} '{self.name}' has text '{text}'"
+        ):
+            expect(self.get_locator(nth, **kwargs)).to_have_text(text)

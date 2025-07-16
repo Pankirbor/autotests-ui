@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
@@ -77,6 +78,7 @@ class ImageUploadWidgetComponent(BaseComponent):
             "Изображение курса",
         )
 
+    @allure.step("Check visible upload view with 'is_file_uploaded'={is_file_uploaded}")
     def check_visible(self, is_file_uploaded: bool = False):
         """
         Проверяет видимость элементов виджета загрузки файла.

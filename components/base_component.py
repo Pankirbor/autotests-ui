@@ -1,5 +1,6 @@
 from typing import Pattern
 
+import allure
 from playwright.sync_api import expect, Locator, Page
 
 
@@ -35,7 +36,8 @@ class BaseComponent:
         Аргументы:
             url (Pattern[str]): Регулярное выражение или строка ожидаемого URL.
         """
-        expect(self.page).to_have_url(url)
+        with allure.step(f"Checking that current url matches pattern '{url.pattern}'"):
+            expect(self.page).to_have_url(url)
 
     def check_locator(self, locator: Locator, text: str | None = None):
         """

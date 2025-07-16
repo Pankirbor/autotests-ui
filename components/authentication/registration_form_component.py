@@ -1,3 +1,5 @@
+import allure
+
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
@@ -35,6 +37,7 @@ class RegistrationFormComponent(BaseComponent):
             page, "registration-form-password-input", "Поле Password"
         )
 
+    @allure.step("Check visible registration form")
     def check_visible(
         self, email: str = "", username: str = "", password: str = ""
     ) -> None:
@@ -50,6 +53,7 @@ class RegistrationFormComponent(BaseComponent):
         self.username_input.check_visible().check_have_value(username)
         self.password_input.check_visible().check_have_value(password)
 
+    @allure.step("Fill registration form")
     def fill(self, email: str, username: str, password: str) -> None:
         """
         Заполняет поля формы значениями.

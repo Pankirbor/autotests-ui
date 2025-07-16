@@ -1,3 +1,4 @@
+import allure
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
@@ -44,5 +45,6 @@ class ChartViewComponent(BaseComponent):
         """
         Проверяет видимость заголовка и самой диаграммы.
         """
-        self.title_locator.check_visible().check_have_text(self.title)
-        self.chart.check_visible()
+        with allure.step(f"Checking that chart '{self.title}' is visible"):
+            self.title_locator.check_visible().check_have_text(self.title)
+            self.chart.check_visible()

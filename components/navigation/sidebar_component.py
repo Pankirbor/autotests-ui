@@ -1,9 +1,11 @@
 import re
 
+import allure
+
 from playwright.sync_api import Page
 
 from components.base_component import BaseComponent
-from components.navigation import SidebarListItemComponent
+from components.navigation.sidebar_list_item_component import SidebarListItemComponent
 
 
 class SidebarComponent(BaseComponent):
@@ -37,6 +39,7 @@ class SidebarComponent(BaseComponent):
         self.courses_list_item = SidebarListItemComponent(page, identifier="courses")
         self.logout_list_item = SidebarListItemComponent(page, identifier="logout")
 
+    @allure.step("Check visible sidebar")
     def check_visible(self):
         """
         Проверяет, что все элементы боковой панели отображаются корректно.
@@ -45,18 +48,21 @@ class SidebarComponent(BaseComponent):
         self.courses_list_item.check_visible("Courses")
         self.logout_list_item.check_visible("Logout")
 
+    @allure.step("Click logout on sidebar")
     def click_logout(self):
         """
         Выполняет клик по элементу "Logout" и проверяет переход на страницу входа.
         """
         self.logout_list_item.navigate(re.compile(r".*/#/auth/login"))
 
+    @allure.step("Click dashboard on sidebar")
     def click_dashboard(self):
         """
         Выполняет клик по элементу "Dashboard" и проверяет переход на главную страницу.
         """
         self.dashboard_list_item.navigate(re.compile(r".*/#/dashboard"))
 
+    @allure.step("Click courses on sidebar")
     def click_courses(self):
         """
         Выполняет клик по элементу "Courses" и проверяет переход на страницу курсов.

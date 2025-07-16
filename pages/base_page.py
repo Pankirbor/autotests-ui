@@ -1,5 +1,7 @@
 from typing import Pattern
 
+import allure
+
 from playwright.sync_api import Page, Locator, expect
 
 
@@ -36,13 +38,15 @@ class BasePage:
         Аргументы:
             url (str): Адрес страницы, на которую нужно перейти.
         """
-        self.page.goto(url, wait_until="networkidle")
+        with allure.step(f"Opening the url: '{url}'"):
+            self.page.goto(url, wait_until="networkidle")
 
     def reload(self) -> None:
         """
         Перезагружает текущую страницу и ждет загрузки контента DOM.
         """
-        self.page.reload(wait_until="domcontentloaded")
+        with allure.step(f"Reload page with url: '{self.page.url}'"):
+            self.page.reload(wait_until="domcontentloaded")
 
     def check_locator(self, locator: Locator, text: str | None = None) -> None:
         """
@@ -52,9 +56,10 @@ class BasePage:
             locator (Locator): Локатор элемента.
             text (str | None): Ожидаемый текст элемента. Если None — только проверяется видимость.
         """
-        expect(locator).to_be_visible()
-        if text:
-            expect(locator).to_have_text(text)
+        with allure.step(f"Checking that {locator} is visible{f'and have text{text:r}' if text else ""}"):
+            expect(locator).to_be_visible()
+            if text:
+                expect(locator).to_have_text(text)
 
     def check_input_locator(self, locator: Locator, text: str | None) -> None:
         """
@@ -64,9 +69,10 @@ class BasePage:
             locator (Locator): Локатор поля ввода.
             text (str | None): Ожидаемое значение в поле ввода. Если None — только проверяется видимость.
         """
-        expect(locator).to_be_visible()
-        if text:
-            expect(locator).to_have_value(text)
+        with allure.step(f"Checking that  input {locator} is visible{f'and have value{text:r}' if text else ""}"):
+            expect(locator).to_be_visible()
+            if text:
+                expect(locator).to_have_value(text)
 
     def check_current_url(self, expected_url: Pattern[str]) -> None:
         """
@@ -75,4 +81,5 @@ class BasePage:
         Аргументы:
             url (Pattern[str]): Регулярное выражение или строка ожидаемого URL.
         """
-        expect(self.page).to_have_url(expected_url)
+        with allure.step(f"Checking that current url matches pattern '{expected_url.pattern}'"):
+            expect(self.page).to_have_url(expected_url)

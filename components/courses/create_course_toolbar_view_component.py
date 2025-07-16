@@ -1,5 +1,6 @@
 import re
 
+import allure
 from playwright.sync_api import Page, expect
 
 from components.base_component import BaseComponent
@@ -40,6 +41,7 @@ class CreateCourseToolbarViewComponent(BaseComponent):
             "Кнопка создать курс",
         )
 
+    @allure.step("Check visible create course Toolbar")
     def check_visible(self):
         """
         Проверяет, что заголовок отображается корректно и кнопка "Создать курс" отключена.

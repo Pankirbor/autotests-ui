@@ -1,3 +1,5 @@
+import allure
+
 from playwright.sync_api import Page, expect
 
 from components.base_component import BaseComponent
@@ -32,6 +34,7 @@ class NavbarComponent(BaseComponent):
             page, "navigation-navbar-welcome-title-text", "Приветственный текст Navbar"
         )
 
+    @allure.step("Check visible Navbar")
     def check_visible(self, username: str):
         """
         Проверяет, что заголовок приложения и приветствие пользователя отображаются корректно.
