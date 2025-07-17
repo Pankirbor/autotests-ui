@@ -3,6 +3,8 @@ import typing
 import allure
 from playwright.sync_api import Playwright, Page
 
+from config import settings
+
 
 def playwright_page_builder(
     playwright: Playwright, test_name: str, state: str | None = None
@@ -29,8 +31,12 @@ def playwright_page_builder(
         Generator[Page, None, None]: Генератор, возвращающий страницу Playwright.
 
     """
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context(storage_state=state, record_video_dir="./videos")
+    browser = playwright.chromium.launch(headless=settings.HEADLESS)
+    context = browser.new_context(
+        storage_state=state,
+        record_video_dir=settings.VIDEOS_PATH,
+        base_url=settings.get_base_url(),
+    )
     context.tracing.start(
         name=test_name, screenshots=True, snapshots=True, sources=True
     )
@@ -38,16 +44,16 @@ def playwright_page_builder(
 
     yield page
 
-    context.tracing.stop(path=f"./tracing/{test_name}.zip")
+    context.tracing.stop(path=settings.TRACING_PATH / f"{test_name}.zip")
     browser.close()
 
     allure.attach.file(
-        source=f"./tracing/{test_name}.zip",
+        source=settings.TRACING_PATH / f"{test_name}.zip",
         name="trace",
         extension="zip",
     )
     allure.attach.file(
-        source=page.video.path,
+        source=page.video.path(),
         name="video",
         attachment_type=allure.attachment_type.WEBM,
     )

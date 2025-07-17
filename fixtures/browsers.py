@@ -4,8 +4,10 @@ import pytest
 
 from playwright.sync_api import Playwright, Page
 
+from config import settings
 from pages import RegistrationPage
 from tools.playwright.page_builder import playwright_page_builder
+from tools.routes import AppRoute
 
 
 @pytest.fixture
@@ -49,17 +51,15 @@ def initialize_browser_state(playwright: Playwright) -> None:
     Возвращает:
         None
     """
-    browser = playwright.chromium.launch(headless=False)
-    context = browser.new_context()
+    browser = playwright.chromium.launch(headless=settings.HEADLESS)
+    context = browser.new_context(base_url=settings.get_base_url())
     page = context.new_page()
 
     registration_page = RegistrationPage(page)
-    registration_page.visit(
-        "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration"
-    )
-    registration_page.form.fill("user.name@gmail.com", "username", "password")
+    registration_page.visit(AppRoute.REGISTRATION)
+    registration_page.form.fill(**settings.TEST_USER.model_dump())
     registration_page.click_registration_btn()
-    context.storage_state(path="browser-state.json")
+    context.storage_state(path=settings.BROWSER_STATE_FILE)
     browser.close()
 
 
@@ -93,5 +93,5 @@ def chromium_page_with_state(
     yield from playwright_page_builder(
         playwright=playwright,
         test_name=request.node.name,
-        state="browser-state.json",
+        state=settings.BROWSER_STATE_FILE,
     )

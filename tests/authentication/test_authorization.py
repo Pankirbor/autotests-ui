@@ -4,7 +4,9 @@ import pytest
 from allure_commons.types import Severity
 
 from pages import LoginPage, RegistrationPage, DashboardPage
+from config import settings
 from tools.allure import AllureEpic, AllureFeature, AllureStory, AllureTag
+from tools.routes import AppRoute
 
 
 @pytest.mark.regression
@@ -55,9 +57,7 @@ class TestAuthorization:
         Ожидаемый результат:
             При вводе неверных данных отображается соответствующее уведомление.
         """
-        login_page.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login"
-        )
+        login_page.visit(AppRoute.AUTORIZATION)
         login_page.form.check_visible()
         login_page.form.fill(email, password)
         login_page.click_login_btn()
@@ -95,25 +95,23 @@ class TestAuthorization:
         Ожидаемый результат:
             Пользователь успешно регистрируется, авторизуется и видит элементы главной страницы.
         """
-        login_page.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login"
-        )
+        login_page.visit(AppRoute.AUTORIZATION)
         login_page.check_visible_login_page_title()
         login_page.click_registration_link()
         registration_page.check_visible_page_title()
         registration_page.form.check_visible()
-        registration_page.form.fill(
-            email="user.name@gmail.com", username="username", password="password"
-        )
+        registration_page.form.fill(**settings.TEST_USER.model_dump())
         registration_page.click_registration_btn()
-        dashboard_page.navbar.check_visible("username")
+        dashboard_page.navbar.check_visible(settings.TEST_USER.username)
         dashboard_page.toolbar.check_visible()
         dashboard_page.sidebar.check_visible()
         dashboard_page.sidebar.click_logout()
         login_page.check_visible_login_page_title()
-        login_page.form.fill(email="user.name@gmail.com", password="password")
+        login_page.form.fill(
+            email=settings.TEST_USER.email, password=settings.TEST_USER.password
+        )
         login_page.click_login_btn()
-        dashboard_page.navbar.check_visible("username")
+        dashboard_page.navbar.check_visible(settings.TEST_USER.username)
 
     @allure.title("Navigation from login page to registration page")
     @allure.tag(AllureTag.NAVIGATION, AllureTag.POSITIVE)
@@ -136,9 +134,7 @@ class TestAuthorization:
         Ожидаемый результат:
             После нажатия на ссылку "Registrtion" отображается форма регистрации.
         """
-        login_page.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/login"
-        )
+        login_page.visit(AppRoute.AUTORIZATION)
         login_page.click_registration_link()
 
         registration_page.registration_form.check_visible(

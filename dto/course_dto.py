@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, FilePath
 
 
 from pydantic import BaseModel
@@ -22,7 +22,7 @@ class CourseDto(BaseModel):
     max_score: str
     min_score: str
 
-    def get_data_for_visible(self) -> dict[str, str]:
+    def get_data_for_check(self):
         """
         Возвращает данные модели без поля 'description'.
 
@@ -30,17 +30,17 @@ class CourseDto(BaseModel):
         где описание не требуется.
 
         Returns:
-            dict: Словарь с данными модели без поля 'description'.
+            dict: Словарь с данными модели без полей 'description', 'source_image'.
         """
-        return self.model_dump(exclude=["description"])
+        return self.model_dump(exclude=["description", "source_image"])
 
-    def get_data_for_create(self) -> dict[str, str]:
+    def get_data_for_create(self):
         """
         Возвращает все данные модели.
 
         Используется, например, при создании нового курса.
 
         Returns:
-            dict: Словарь со всеми данными модели.
+            dict: Словарь с данными модели без поля 'source_image'.
         """
-        return self.model_dump()
+        return self.model_dump(exclude=["source_image"])

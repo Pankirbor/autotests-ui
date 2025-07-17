@@ -3,8 +3,10 @@ import pytest
 
 from allure_commons.types import Severity
 
+from config import settings
 from pages.dashboard.dashboard_page import DashboardPage
 from tools.allure import AllureEpic, AllureFeature, AllureStory, AllureTag
+from tools.routes import AppRoute
 
 
 @pytest.mark.regression
@@ -34,10 +36,8 @@ class TestDashboard:
         Ожидаемый результат:
             Все элементы страницы Dashboard отображаются корректно.
         """
-        dashboard_page_with_state.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/dashboard"
-        )
-        dashboard_page_with_state.navbar.check_visible("username")
+        dashboard_page_with_state.visit(AppRoute.DASHBOARD)
+        dashboard_page_with_state.navbar.check_visible(settings.TEST_USER.username)
         dashboard_page_with_state.sidebar.check_visible()
         dashboard_page_with_state.toolbar.check_visible()
         dashboard_page_with_state.scores_chart.check_visible()

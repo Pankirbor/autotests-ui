@@ -3,8 +3,10 @@ import pytest
 
 from allure_commons.types import Severity
 
+from config import settings
 from pages import RegistrationPage, DashboardPage
 from tools.allure import AllureEpic, AllureFeature, AllureStory, AllureTag
+from tools.routes import AppRoute
 
 
 @pytest.mark.regression
@@ -42,11 +44,9 @@ class TestRegistration:
         Ожидаемый результат:
             Форма успешно отправлена, пользователь зарегистрирован и перенаправлен на страницу Dashboard.
         """
-        registration_page.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/auth/registration"
-        )
+        registration_page.visit(AppRoute.REGISTRATION)
         registration_page.check_visible_page_title()
         registration_page.form.check_visible()
-        registration_page.form.fill("user.name@gmail.com", "username", "password")
+        registration_page.form.fill(**settings.TEST_USER.model_dump())
         registration_page.click_registration_btn()
         dashboard_page.toolbar.check_visible()

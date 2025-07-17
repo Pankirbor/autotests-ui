@@ -3,9 +3,11 @@ import pytest
 
 from allure_commons.types import Severity
 
+from config import settings
 from dto.course_dto import CourseDto
 from pages import CoursesListPage, CreateCoursePage
 from tools.allure import AllureEpic, AllureFeature, AllureStory, AllureTag
+from tools.routes import AppRoute
 
 
 @pytest.mark.regression
@@ -52,10 +54,8 @@ class TestCourses:
             Все элементы страницы отображаются корректно, а пользователь видит информирующее сообщение
             о том, что список курсов пуст.
         """
-        courses_list_page.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses"
-        )
-        courses_list_page.navbar.check_visible("username")
+        courses_list_page.visit(AppRoute.COURSES)
+        courses_list_page.navbar.check_visible(settings.TEST_USER.username)
         courses_list_page.sidebar.check_visible()
         courses_list_page.toolbar.check_visible()
         courses_list_page.check_visible_empty_view()
@@ -66,7 +66,10 @@ class TestCourses:
     @allure.sub_suite(AllureStory.CREATE_COURSE)
     @allure.severity(Severity.CRITICAL)
     def test_create_course(
-        self, create_course_page: CreateCoursePage, courses_list_page: CoursesListPage
+        self,
+        create_course_page: CreateCoursePage,
+        courses_list_page: CoursesListPage,
+        course_create_dto: CourseDto,
     ):
         """
         Тест проверяет процесс создания нового курса в UI-приложении.
@@ -89,13 +92,11 @@ class TestCourses:
         3. Проверка результатов после сохранения.
         """
         # ? Переход на страницу создания курса и проверка наличия всех элементов страницы
-        courses_list_page.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses"
-        )
+        courses_list_page.visit(AppRoute.COURSES)
         courses_list_page.toolbar.check_visible()
         courses_list_page.toolbar.click_create_course_btn()
 
-        create_course_page.navbar.check_visible("username")
+        create_course_page.navbar.check_visible(settings.TEST_USER.username)
         create_course_page.sidebar.check_visible()
         create_course_page.toolbar.check_visible()
         create_course_page.file_upload_widget.check_visible()
@@ -110,15 +111,11 @@ class TestCourses:
         )
 
         # ? Заполнение формы и проверка наличия элементов после заполнения
-        create_course_page.file_upload_widget.upload_file("./testdata/files/image.jpg")
-        create_course_page.file_upload_widget.check_visible(is_file_uploaded=True)
-        create_course_page.course_form.fill(
-            title="Playwright",
-            estimated_time="2 weeks",
-            description="Playwright",
-            max_score="100",
-            min_score="10",
+        create_course_page.file_upload_widget.upload_file(
+            course_create_dto.source_image
         )
+        create_course_page.file_upload_widget.check_visible(is_file_uploaded=True)
+        create_course_page.course_form.fill(**course_create_dto.get_data_for_create())
         create_course_page.exercise_form.fill(
             index=0, title="Playwright", description="Playwright"
         )
@@ -130,10 +127,7 @@ class TestCourses:
         courses_list_page.toolbar.check_visible()
         courses_list_page.course_card.check_visible(
             index=0,
-            title="Playwright",
-            estimated_time="2 weeks",
-            max_score="100",
-            min_score="10",
+            **course_create_dto.get_data_for_visible(),
         )
 
     @allure.title("Edit course")
@@ -161,16 +155,16 @@ class TestCourses:
         Ожидаемый результат:
             Курс успешно сохраняется с новыми данными, и они отображаются в списке.
         """
-        create_course_page.visit(
-            "https://nikita-filonov.github.io/qa-automation-engineer-ui-course/#/courses/create"
-        )
-        create_course_page.navbar.check_visible("username")
+        create_course_page.visit(AppRoute.COURSES_CREATE)
+        create_course_page.navbar.check_visible(settings.TEST_USER.username)
         create_course_page.toolbar.check_visible()
         create_course_page.sidebar.check_visible()
         create_course_page.file_upload_widget.check_visible()
 
         # * Заполнение формы и проверка наличия элементов после заполнения
-        create_course_page.file_upload_widget.upload_file("./testdata/files/image.jpg")
+        create_course_page.file_upload_widget.upload_file(
+            course_create_dto.source_image
+        )
         create_course_page.file_upload_widget.check_visible(is_file_uploaded=True)
         create_course_page.course_form.fill(**course_create_dto.get_data_for_create())
         create_course_page.toolbar.click_create_course_btn()

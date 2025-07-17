@@ -12,6 +12,7 @@ def course_create_dto():
             "description": "Playwright",
             "max_score": "100",
             "min_score": "10",
+            "source_image": "./testdata/files/image_create_course.jpg",
         }
     )
     return course
@@ -26,6 +27,7 @@ def course_edit_dto():
             "description": "Python",
             "max_score": "200",
             "min_score": "20",
+            "source_image": "./testdata/files/image_edit_course.jpg",
         }
     )
     return course
