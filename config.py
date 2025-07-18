@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Self
+from typing import Any, Self
 
 from pydantic import BaseModel, EmailStr, DirectoryPath, HttpUrl, FilePath
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -44,25 +44,26 @@ class TestUser(BaseModel):
 
 class Settings(BaseSettings):
     """
-    Модель настроек приложения, загружающая параметры из файла `.env.test`.
+    Класс настроек, загружающий конфигурацию из файла `.env.test`.
 
-    Использует `pydantic.BaseSettings` для автоматической валидации и загрузки
-    переменных окружения. Конфигурация указывает путь к файлу `.env.test`, разделитель
-    для вложенных полей и кодировку файла.
+    Использует `pydantic.BaseSettings` для автоматической валидации и загрузки переменных окружения.
+    Конфигурация указывает путь к файлу `.env.test`, разделитель для вложенных полей и кодировку.
 
     Attributes:
         APP_URL (HttpUrl): URL-адрес приложения.
-        HEADLESS (bool): Флаг, определяющий запуск браузера в headless-режиме.
-        BROWSERS (list[Browseer]): Список поддерживаемых браузеров для тестирования.
+        HEADLESS (bool): Флаг запуска браузера в headless-режиме.
+        BROWSERS (list[Browser]): Список поддерживаемых браузеров для тестирования.
         TEST_USER (TestUser): Объект с данными тестового пользователя.
         VIDEOS_PATH (DirectoryPath): Путь к директории для хранения видео записей тестов.
         TRACING_PATH (DirectoryPath): Путь к директории для хранения трассировок.
+        ALLURE_RESULTS_PATH (DirectoryPath): Путь к директории результатов Allure.
         BROWSER_STATE_FILE (FilePath): Путь к файлу состояния браузера.
+        SNAPSHOTS_TESTS (list[str], optional): Список тестов, для которых будут сохраняться снимки экрана.
 
     Methods:
-        initialize: Создает и возвращает экземпляр `Settings` с предопределенными
-                    путями, создавая необходимые директории и файлы.
+        initialize: Создает экземпляр `Settings` и инициализирует структуру каталогов.
         get_base_url: Возвращает базовый URL приложения.
+        get_env_properties: Возвращает словарь с основными параметрами окружения.
     """
 
     model_config = SettingsConfigDict(
@@ -76,6 +77,7 @@ class Settings(BaseSettings):
     TEST_USER: TestUser
     VIDEOS_PATH: DirectoryPath
     TRACING_PATH: DirectoryPath
+    ALLURE_RESULTS_PATH: DirectoryPath
     BROWSER_STATE_FILE: FilePath
 
     @classmethod
@@ -91,16 +93,19 @@ class Settings(BaseSettings):
         """
         videos_path = DirectoryPath("./videos")
         tracing_path = DirectoryPath("./tracing")
+        allure_results_path = DirectoryPath("./allure_results")
         browser_state_file = FilePath("browser_state.json")
 
         videos_path.mkdir(exist_ok=True)
-        tracing_path.mkdir(exist_ok=True),
+        tracing_path.mkdir(exist_ok=True)
+        allure_results_path.mkdir(exist_ok=True)
         browser_state_file.touch(exist_ok=True)
 
         return Settings(
             BROWSER_STATE_FILE=browser_state_file,
             VIDEOS_PATH=videos_path,
             TRACING_PATH=tracing_path,
+            ALLURE_RESULTS_PATH=allure_results_path,
         )
 
     def get_base_url(self) -> str:
@@ -113,6 +118,26 @@ class Settings(BaseSettings):
             str: Базовый URL приложения.
         """
         return f"{self.APP_URL}/"
+
+    def get_env_properties(self) -> dict[str, Any]:
+        """
+        Возвращает словарь с основными параметрами окружения.
+
+        Используется для формирования файла `environment.properties` в Allure.
+
+        Returns:
+            dict[str, Any]: Словарь с ключами `APP_URL`, `HEADLESS`, `BROWSERS`,
+                            `TEST_USER`, `BROWSER_STATE_FILE`.
+        """
+        return self.model_dump(
+            include=[
+                "APP_URL",
+                "HEADLESS",
+                "BROWSERS",
+                "TEST_USER",
+                "BROWSER_STATE_FILE",
+            ]
+        )
 
 
 settings = Settings.initialize()
