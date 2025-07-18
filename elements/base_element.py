@@ -3,6 +3,10 @@ from typing import Self
 import allure
 
 from playwright.sync_api import Page, Locator, expect
+from tools.logger import get_logger
+
+
+logger = get_logger(__name__.upper())
 
 
 class BaseElement:
@@ -49,16 +53,23 @@ class BaseElement:
             Locator: Локатор элемента на странице.
         """
         locator = self.locator_path.format(**kwargs)
-        with allure.step(
-            f"Getting locator with 'data-testid={locator}' at index' {nth}'"
-        ):
-            return self.page.get_by_test_id(locator).nth(nth)
+        step = f"Getting locator with 'data-testid={locator}' at index' {nth}'"
+
+        with allure.step(step):
+            try:
+                locator = self.page.get_by_test_id(locator).nth(nth)
+            except Exception as e:
+                logger.error(step)
+                logger.error(e)
+            return locator
 
     def click(self, nth: int = 0, **kwargs):
         """
         Выполняет клик по элементу.
         """
-        with allure.step(f"Clicking {self.type_of} '{self.name}'"):
+        step = f"Clicking {self.type_of} '{self.name}'"
+        with allure.step(step):
+            logger.info(step)
             self.get_locator(nth, **kwargs).click()
 
     def check_visible(self, nth: int = 0, **kwargs) -> Self:
@@ -68,7 +79,9 @@ class BaseElement:
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        with allure.step(f"Checking that {self.type_of} '{self.name}' is visible"):
+        step = f"Checking that {self.type_of} '{self.name}' is visible"
+        with allure.step(step):
+            logger.info(step)
             expect(self.get_locator(nth, **kwargs)).to_be_visible()
         return self
 
@@ -79,7 +92,7 @@ class BaseElement:
         Аргументы:
             text (str): Ожидаемый текст в элементе.
         """
-        with allure.step(
-            f"Checking that {self.type_of} '{self.name}' has text '{text}'"
-        ):
+        step = f"Checking that {self.type_of} '{self.name}' has text '{text}'"
+        with allure.step(step):
+            logger.info(step)
             expect(self.get_locator(nth, **kwargs)).to_have_text(text)

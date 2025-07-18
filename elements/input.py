@@ -5,6 +5,10 @@ import allure
 from playwright.sync_api import expect, Locator
 
 from elements.base_element import BaseElement
+from tools.logger import get_logger
+
+
+logger = get_logger(__name__.upper())
 
 
 class Input(BaseElement):
@@ -33,7 +37,11 @@ class Input(BaseElement):
         Возвращает:
             Locator: Локатор поля ввода.
         """
-        return super().get_locator(nth, **kwargs).locator("input")
+        try:
+            locator = super().get_locator(nth, **kwargs).locator("input")
+        except Exception as e:
+            logger.error(e)
+        return locator
 
     def fill(self, value: str, nth: int = 0, **kwargs) -> Self:
         """
@@ -47,7 +55,9 @@ class Input(BaseElement):
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        with allure.step(f"Fill {self.type_of} '{self.name}' to value '{value}'"):
+        step = f"Fill {self.type_of} '{self.name}' to value '{value}'"
+        with allure.step(step):
+            logger.info(step)
             self.get_locator(nth, **kwargs).fill(value)
             return self
 
@@ -60,10 +70,10 @@ class Input(BaseElement):
             nth (int): Индекс элемента, если на странице несколько одинаковых полей.
             **kwargs: Дополнительные параметры для форматирования локатора.
         """
-        with allure.step(
-            f"Checking that {self.type_of} '{self.name}' has a value '{value}'"
-        ):
+        step = f"Checking that {self.type_of} '{self.name}' has a value '{value}'"
+        with allure.step(step):
             locator = self.get_locator(nth, **kwargs)
+            logger.info(step)
             expect(locator).to_have_value(value)
 
     def clear(self, nth: int = 0, **kwargs) -> Self:
@@ -77,8 +87,10 @@ class Input(BaseElement):
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        with allure.step(f"Clearing a {self.type_of} '{self.name}' of values"):
+        step = f"Clearing a {self.type_of} '{self.name}' of values"
+        with allure.step(step):
             locator = self.get_locator(nth, **kwargs)
+            logger.info(step)
             locator.clear()
             return self
 
@@ -105,10 +117,10 @@ class Input(BaseElement):
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        with allure.step(
-            f"Fill {self.type_of} '{self.name}' to value {text} with delayed typing"
-        ):
+        step = f"Fill {self.type_of} '{self.name}' to value {text} with delayed typing"
+        with allure.step(step):
             locator = self.get_locator(nth, **kwargs)
+            logger.info(step)
             locator.type(
                 text,
                 delay=delay,

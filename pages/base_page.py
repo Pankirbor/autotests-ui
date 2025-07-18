@@ -3,6 +3,10 @@ from typing import Pattern
 import allure
 
 from playwright.sync_api import Page, Locator, expect
+from tools.logger import get_logger
+
+
+logger = get_logger(__name__.upper())
 
 
 class BasePage:
@@ -38,14 +42,18 @@ class BasePage:
         Аргументы:
             url (str): Адрес страницы, на которую нужно перейти.
         """
-        with allure.step(f"Opening the url: '{url}'"):
+        step = f"Opening the url: '{url}'"
+        with allure.step(step):
+            logger.info(step)
             self.page.goto(url, wait_until="networkidle")
 
     def reload(self) -> None:
         """
         Перезагружает текущую страницу и ждет загрузки контента DOM.
         """
-        with allure.step(f"Reload page with url: '{self.page.url}'"):
+        step = f"Reload page with url: '{self.page.url}'"
+        with allure.step(step):
+            logger.info(step)
             self.page.reload(wait_until="domcontentloaded")
 
     def check_locator(self, locator: Locator, text: str | None = None) -> None:
@@ -81,5 +89,7 @@ class BasePage:
         Аргументы:
             url (Pattern[str]): Регулярное выражение или строка ожидаемого URL.
         """
-        with allure.step(f"Checking that current url matches pattern '{expected_url.pattern}'"):
+        step = f"Checking that current url matches pattern '{expected_url.pattern}'"
+        with allure.step(step):
+            logger.info(step)
             expect(self.page).to_have_url(expected_url)

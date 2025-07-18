@@ -6,6 +6,10 @@ from playwright.sync_api import expect, Locator
 
 
 from elements.base_element import BaseElement
+from tools.logger import get_logger
+
+
+logger = get_logger(__name__.upper())
 
 
 class Textarea(BaseElement):
@@ -33,7 +37,11 @@ class Textarea(BaseElement):
         Возвращает:
             Locator: Локатор текстовой области.
         """
-        return super().get_locator(nth, **kwargs).locator("textarea").first
+        try:
+            locator = super().get_locator(nth, **kwargs).locator("textarea").first
+        except Exception as e:
+            logger.error(e)
+        return locator
 
     def fill(self, value: str, nth: int = 0, **kwargs) -> Self:
         """
@@ -44,7 +52,9 @@ class Textarea(BaseElement):
             nth (int): Индекс элемента, если на странице несколько одинаковых текстовых областей.
             **kwargs: Дополнительные параметры для форматирования локатора.
         """
-        with allure.step(f"Fill {self.type_of} '{self.name}' to value '{value}'"):
+        step = f"Fill {self.type_of} '{self.name}' to value '{value}'"
+        with allure.step(step):
+            logger.info(step)
             self.get_locator(nth, **kwargs).fill(value)
             return self
 
@@ -57,10 +67,10 @@ class Textarea(BaseElement):
             nth (int): Индекс элемента, если на странице несколько одинаковых текстовых областей.
             **kwargs: Дополнительные параметры для форматирования локатора.
         """
-        with allure.step(
-            f"Checking that {self.type_of} '{self.name}' has a value '{value}'"
-        ):
+        step = f"Checking that {self.type_of} '{self.name}' has a value '{value}'"
+        with allure.step(step):
             locator = self.get_locator(nth, **kwargs)
+            logger.info(step)
             expect(locator).to_have_value(value)
 
     def type_text(
@@ -86,10 +96,10 @@ class Textarea(BaseElement):
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        with allure.step(
-            f"Fill {self.type_of} '{self.name}' to value {text} with delayed typing"
-        ):
+        step = f"Fill {self.type_of} '{self.name}' to value {text} with delayed typing"
+        with allure.step(step):
             locator = self.get_locator(nth, **kwargs)
+            logger.info(step)
             locator.type(
                 text,
                 delay=delay,
@@ -109,7 +119,9 @@ class Textarea(BaseElement):
         Возвращает:
             Self: Экземпляр текущего объекта для цепочки вызовов.
         """
-        with allure.step(f"Clearing a {self.type_of} '{self.name}' of values"):
+        step = f"Clearing a {self.type_of} '{self.name}' of values"
+        with allure.step(step):
             locator = self.get_locator(nth, **kwargs)
+            logger.info(step)
             locator.clear()
             return self

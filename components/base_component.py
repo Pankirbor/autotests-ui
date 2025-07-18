@@ -2,6 +2,10 @@ from typing import Pattern
 
 import allure
 from playwright.sync_api import expect, Locator, Page
+from tools.logger import get_logger
+
+
+logger = get_logger(__name__.upper())
 
 
 class BaseComponent:
@@ -36,7 +40,9 @@ class BaseComponent:
         Аргументы:
             url (Pattern[str]): Регулярное выражение или строка ожидаемого URL.
         """
-        with allure.step(f"Checking that current url matches pattern '{url.pattern}'"):
+        step = f"Checking that current url matches pattern '{url.pattern}'"
+        with allure.step(step):
+            logger.info(step)
             expect(self.page).to_have_url(url)
 
     def check_locator(self, locator: Locator, text: str | None = None):
