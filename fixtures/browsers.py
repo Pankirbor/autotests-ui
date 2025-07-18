@@ -10,7 +10,7 @@ from tools.playwright.page_builder import playwright_page_builder
 from tools.routes import AppRoute
 
 
-@pytest.fixture
+@pytest.fixture(params=settings.BROWSERS)
 def chromium_page(
     request: pytest.FixtureRequest,
     playwright: Playwright,
@@ -33,7 +33,11 @@ def chromium_page(
     Returns:
         None: Ресурсы управляются через генератор.
     """
-    yield from playwright_page_builder(playwright, test_name=request.node.name)
+    yield from playwright_page_builder(
+        playwright=playwright,
+        browser_type=request.param,
+        test_name=request.node.name,
+    )
 
 
 @pytest.fixture(scope="session")
@@ -63,7 +67,7 @@ def initialize_browser_state(playwright: Playwright) -> None:
     browser.close()
 
 
-@pytest.fixture
+@pytest.fixture(params=settings.BROWSERS)
 def chromium_page_with_state(
     request: pytest.FixtureRequest,
     initialize_browser_state,
@@ -92,6 +96,7 @@ def chromium_page_with_state(
     """
     yield from playwright_page_builder(
         playwright=playwright,
+        browser_type=request.param,
         test_name=request.node.name,
         state=settings.BROWSER_STATE_FILE,
     )

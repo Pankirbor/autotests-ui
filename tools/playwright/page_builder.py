@@ -3,35 +3,36 @@ import typing
 import allure
 from playwright.sync_api import Playwright, Page
 
-from config import settings
+from config import settings, Browser
 
 
 def playwright_page_builder(
-    playwright: Playwright, test_name: str, state: str | None = None
+    playwright: Playwright,
+    browser_type: Browser,
+    test_name: str,
+    state: str | None = None,
 ) -> typing.Iterator[Page]:
     """
-    Генератор, создающий и настраивающий страницу Playwright для запуска теста.
+    Генератор для создания и настройки страницы Playwright в указанном браузере.
 
-    Эта функция используется в качестве фикстуры в тестах. Она запускает браузер,
-    создает контекст с возможностью записи видео и трассировки, а после выполнения
-    теста завершает работу браузера и прикрепляет результаты (видео и трассировку)
+    Функция запускает браузер, заданный через `browser_type`, создает новый контекст с
+    указанием начального состояния (state), записью видео и трассировкой выполнения.
+    После завершения работы браузер закрывается, а трассировка и видео прикрепляются
     к отчету Allure.
 
     Args:
         playwright (Playwright): Объект Playwright для управления браузером.
-        test_name (str): Название теста, используется для именования файлов
-                         трассировки и видео.
-        state (str | None): Необязательный параметр — путь к файлу состояния
-                            браузера для восстановления авторизации и т.п.
+        browser_type (Browser): Тип браузера (webkit, chromium, firefox).
+        test_name (str): Имя теста, используется для формирования путей файлов.
+        state (str | None, optional): Путь к файлу состояния браузера. Defaults to None.
 
     Yields:
-        Page: Объект страницы Playwright, готовый к использованию в тесте.
+        Iterator[Page]: Генератор, возвращающий объект страницы Playwright.
 
     Returns:
-        Generator[Page, None, None]: Генератор, возвращающий страницу Playwright.
-
+        None: Ресурсы управляются внутри генератора.
     """
-    browser = playwright.chromium.launch(headless=settings.HEADLESS)
+    browser = playwright[browser_type].launch(headless=settings.HEADLESS)
     context = browser.new_context(
         storage_state=state,
         record_video_dir=settings.VIDEOS_PATH,
