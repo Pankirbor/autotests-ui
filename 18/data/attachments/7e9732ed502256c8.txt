@@ -1,0 +1,122 @@
+INFO     PAGES.BASE_PAGE:base_page.py:47 Opening the url: 'AppRoute.COURSES'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок панели Courses' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок панели Courses' has text 'Courses'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка создания курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка создания курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:72 Clicking Button 'Кнопка создания курса'
+INFO     COMPONENTS.BASE_COMPONENT:base_component.py:45 Checking that current url matches pattern '.*/#/courses/create'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок Navbar' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок Navbar' has text 'UI Course'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Приветственный текст Navbar' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Приветственный текст Navbar' has text 'Welcome, username!'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок SidebarItem' has text 'Dashboard'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок SidebarItem' has text 'Courses'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок SidebarItem' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок SidebarItem' has text 'Logout'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок панели Create course' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок панели Create course' has text 'Create course'
+INFO     ELEMENTS.BUTTON:button.py:49 Checking that Button 'Кнопка создать курс' is disabled
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок окна загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок окна загрузки' has text 'Tap on "Upload image" button to select file'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Описание окна загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Описание окна загрузки' has text 'Recommended file size 540X300'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок EmptyView' has text 'No image selected'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Описание EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Описание EmptyView' has text 'Preview of selected image will be displayed here'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода заголовка' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода заголовка' has a value ''
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Textarea 'Поле ввода описания' is visible
+INFO     ELEMENTS.TEXTAREA:textarea.py:73 Checking that Textarea 'Поле ввода описания' has a value ''
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода оценочного времени' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода оценочного времени' has a value ''
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода макс. балла' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода макс. балла' has a value '0'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода мин. балла' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода мин. балла' has a value '0'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок панели Exercises' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок панели Exercises' has text 'Exercises'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка создания упражнения' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок EmptyView' has text 'There is no exercises'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Описание EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Описание EmptyView' has text 'Click on "Create exercise" button to create new exercise'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка создания упражнения' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:72 Clicking Button 'Кнопка создания упражнения'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Подзаголовок упражнения' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Подзаголовок упражнения' has text '#1 Exercise'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Заголовок упражнения' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Заголовок упражнения' has a value 'Exercise title'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Описание упражнения' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Описание упражнения' has a value 'Exercise description'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that FileInput 'Поле выбора файла' is visible
+INFO     ELEMENTS.FILE_INPUT:file_input.py:33 Set file 'testdata/files/image_create_course.jpg' to the FileInput 'Поле выбора файла'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок окна загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок окна загрузки' has text 'Tap on "Upload image" button to select file'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Описание окна загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Описание окна загрузки' has text 'Recommended file size 540X300'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка загрузки' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка удаления изображения' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Image 'Изображение курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода заголовка' is visible
+INFO     ELEMENTS.INPUT:input.py:93 Clearing a Input 'Поле ввода заголовка' of values
+INFO     ELEMENTS.INPUT:input.py:123 Fill Input 'Поле ввода заголовка' to value Playwright with delayed typing
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода заголовка' has a value 'Playwright'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Textarea 'Поле ввода описания' is visible
+INFO     ELEMENTS.TEXTAREA:textarea.py:125 Clearing a Textarea 'Поле ввода описания' of values
+INFO     ELEMENTS.TEXTAREA:textarea.py:102 Fill Textarea 'Поле ввода описания' to value Playwright with delayed typing
+INFO     ELEMENTS.TEXTAREA:textarea.py:73 Checking that Textarea 'Поле ввода описания' has a value 'Playwright'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода оценочного времени' is visible
+INFO     ELEMENTS.INPUT:input.py:93 Clearing a Input 'Поле ввода оценочного времени' of values
+INFO     ELEMENTS.INPUT:input.py:123 Fill Input 'Поле ввода оценочного времени' to value 2 weeks with delayed typing
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода оценочного времени' has a value '2 weeks'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода макс. балла' is visible
+INFO     ELEMENTS.INPUT:input.py:93 Clearing a Input 'Поле ввода макс. балла' of values
+INFO     ELEMENTS.INPUT:input.py:123 Fill Input 'Поле ввода макс. балла' to value 100 with delayed typing
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода макс. балла' has a value '100'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле ввода мин. балла' is visible
+INFO     ELEMENTS.INPUT:input.py:93 Clearing a Input 'Поле ввода мин. балла' of values
+INFO     ELEMENTS.INPUT:input.py:123 Fill Input 'Поле ввода мин. балла' to value 10 with delayed typing
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле ввода мин. балла' has a value '10'
+INFO     ELEMENTS.INPUT:input.py:93 Clearing a Input 'Заголовок упражнения' of values
+INFO     ELEMENTS.INPUT:input.py:123 Fill Input 'Заголовок упражнения' to value Playwright with delayed typing
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Заголовок упражнения' has a value 'Playwright'
+INFO     ELEMENTS.INPUT:input.py:93 Clearing a Input 'Описание упражнения' of values
+INFO     ELEMENTS.INPUT:input.py:123 Fill Input 'Описание упражнения' to value Playwright with delayed typing
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Описание упражнения' has a value 'Playwright'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка удаления упражнения' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:72 Clicking Button 'Кнопка удаления упражнения'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Icon 'Иконка EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок EmptyView' has text 'There is no exercises'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Описание EmptyView' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Описание EmptyView' has text 'Click on "Create exercise" button to create new exercise'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка создать курс' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:72 Clicking Button 'Кнопка создать курс'
+INFO     COMPONENTS.BASE_COMPONENT:base_component.py:45 Checking that current url matches pattern '.*/#/courses'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок панели Courses' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок панели Courses' has text 'Courses'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка создания курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Заголовок курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Заголовок курса' has text 'Playwright'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Button 'Кнопка Menu курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Image 'Картинка курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Продолжительность курса' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Продолжительность курса' has text 'Estimated time: 2 weeks'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Макс. балл' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Макс. балл' has text 'Max score: 100'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Text 'Мин. балл' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:97 Checking that Text 'Мин. балл' has text 'Min score: 10'

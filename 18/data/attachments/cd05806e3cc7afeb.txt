@@ -1,0 +1,9 @@
+INFO     PAGES.BASE_PAGE:base_page.py:47 Opening the url: 'AppRoute.LOGIN'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Link 'Ссылка на страницу регистрации' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:72 Clicking Link 'Ссылка на страницу регистрации'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле Email' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле Email' has a value ''
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле Username' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле Username' has a value ''
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:84 Checking that Input 'Поле Password' is visible
+INFO     ELEMENTS.INPUT:input.py:76 Checking that Input 'Поле Password' has a value ''
