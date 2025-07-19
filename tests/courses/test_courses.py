@@ -127,7 +127,7 @@ class TestCourses:
         courses_list_page.toolbar.check_visible()
         courses_list_page.course_card.check_visible(
             index=0,
-            **course_create_dto.get_data_for_visible(),
+            **course_create_dto.get_data_for_check(),
         )
 
     @allure.title("Edit course")
