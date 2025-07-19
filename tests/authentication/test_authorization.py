@@ -95,7 +95,7 @@ class TestAuthorization:
         Ожидаемый результат:
             Пользователь успешно регистрируется, авторизуется и видит элементы главной страницы.
         """
-        login_page.visit(AppRoute.AUTORIZATION)
+        login_page.visit(AppRoute.AUTORIZATIO)
         login_page.check_visible_login_page_title()
         login_page.click_registration_link()
         registration_page.check_visible_page_title()

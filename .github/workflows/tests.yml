@@ -47,6 +47,25 @@ jobs:
                 allure_results: allure_results
                 allure_history: allure_history
 
+            - name: Upload Allure Report
+              uses: actions/upload-artifact@v4
+              with:
+                name: uploaded_report
+                path: |
+                    allure_results
+                    allure_history
+
+    publish-report:
+        name: Publish Allure report
+        needs: run-tests
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Download math result for job 2
+              uses: actions/download-artifact@v4
+              with:
+                name: uploaded_report
+
             - name: Deploy report to Github Pages
               if: always()
               uses: peaceiris/actions-gh-pages@v4
