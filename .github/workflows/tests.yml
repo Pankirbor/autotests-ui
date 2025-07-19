@@ -54,6 +54,7 @@ jobs:
                 path: |
                     allure_results
                     allure_history
+                    allure-report
 
     publish-report:
         name: Publish Allure report
