@@ -33,6 +33,7 @@ jobs:
                 pytest -m regression --alluredir=allure-results --numprocesses 2
 
             - name: Upload Allure Report
+              if: always()
               uses: actions/upload-artifact@v4
               with:
                 name: allure-results
