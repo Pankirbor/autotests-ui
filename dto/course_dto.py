@@ -1,19 +1,17 @@
 from pydantic import BaseModel, FilePath
 
 
-from pydantic import BaseModel
-
-
 class CourseDto(BaseModel):
     """
-    DTO-модель для представления данных курса.
+    Модель данных курса.
 
     Attributes:
         title (str): Название курса.
         description (str): Описание курса.
-        estimated_time (str): Примерное время прохождения курса.
-        max_score (str): Максимальный возможный балл.
-        min_score (str): Минимальный пороговый балл.
+        estimated_time (str): Оценочное время прохождения.
+        max_score (str): Максимальный балл за курс.
+        min_score (str): Минимальный балл для успешного завершения.
+        source_image (FilePath): Путь к изображению курса.
     """
 
     title: str
@@ -21,6 +19,7 @@ class CourseDto(BaseModel):
     estimated_time: str
     max_score: str
     min_score: str
+    source_image: FilePath
 
     def get_data_for_check(self):
         """
