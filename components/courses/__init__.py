@@ -1,8 +1,0 @@
-from .create_course_exercise_form_component import CreateCourseExerciseFormComponent
-from .course_view_component import CourseViewComponent
-from .courses_list_toolbar_view_component import CoursesListToolbarViewComponent
-from .create_course_toolbar_view_component import CreateCourseToolbarViewComponent
-from .create_course_exercises_toolbar_view_component import (
-    CreateCourseExercisesToolbarViewComponent,
-)
-from .create_course_form_component import CreateCourseFormComponent
