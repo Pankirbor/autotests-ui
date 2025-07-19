@@ -133,3 +133,15 @@ dmypy.json
 # .idea
 .idea
 .vscode
+
+# allure
+allure_reports
+allure-reports
+allure-results
+allure_results
+
+# testing artefacts
+*.html
+*.json
+videos
+tracing
