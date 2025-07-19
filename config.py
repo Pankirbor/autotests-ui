@@ -5,7 +5,7 @@ from pydantic import BaseModel, EmailStr, DirectoryPath, HttpUrl, FilePath
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-class Browseer(str, Enum):
+class Browser(str, Enum):
     """
     Перечисление, представляющее поддерживаемые браузеры.
 
@@ -73,7 +73,7 @@ class Settings(BaseSettings):
     )
     APP_URL: HttpUrl
     HEADLESS: bool
-    BROWSERS: list[Browseer]
+    BROWSERS: list[Browser]
     TEST_USER: TestUser
     VIDEOS_PATH: DirectoryPath
     TRACING_PATH: DirectoryPath

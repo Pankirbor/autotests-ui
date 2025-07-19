@@ -137,6 +137,4 @@ class TestAuthorization:
         login_page.visit(AppRoute.AUTORIZATION)
         login_page.click_registration_link()
 
-        registration_page.registration_form.check_visible(
-            email="", username="", password=""
-        )
+        registration_page.form.check_visible(email="", username="", password="")
