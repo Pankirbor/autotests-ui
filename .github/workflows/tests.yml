@@ -45,6 +45,7 @@ jobs:
     publish-report:
         name: Publish Allure report
         needs: run-tests
+        if: always()
         runs-on: ubuntu-latest
 
         steps:
