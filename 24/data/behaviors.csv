@@ -1,0 +1,8 @@
+"Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
+"LMS system","Authentication","Authorization","0","0","10","0","0"
+"LMS system","Dashboard UI Elements","Dashboard Page Display","0","0","2","0","0"
+"LMS system","Authentication","Invalid Credentials Handling","0","0","6","0","0"
+"LMS system","Courses UI Elements","Edit Course","0","2","0","0","0"
+"LMS system","Authentication","Registration","0","0","2","0","0"
+"LMS system","Courses UI Elements","Empty Courses List","0","0","2","0","0"
+"LMS system","Courses UI Elements","Create Course","0","2","0","0","0"
