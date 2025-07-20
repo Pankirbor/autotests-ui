@@ -29,8 +29,6 @@ jobs:
                 playwright install --with-deps
 
             - name: Run Playwright tests with pytest and generate Allure results
-              env:
-                 UI_COVERAGE_CONFIG: "./.ui-coverage.yml"
               run: |
                 pytest -m regression --alluredir=allure-results --numprocesses 2
 

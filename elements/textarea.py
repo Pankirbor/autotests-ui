@@ -3,7 +3,7 @@ from typing import Self
 import allure
 
 from playwright.sync_api import expect, Locator
-
+from ui_coverage_tool import ActionType
 
 from elements.base_element import BaseElement
 from tools.logger import get_logger
@@ -43,6 +43,9 @@ class Textarea(BaseElement):
             logger.error(e)
         return locator
 
+    def get_raw_locator(self, nth=0, **kwargs):
+        return f"{super().get_raw_locator(nth, **kwargs)}//textarea[1]"
+
     def fill(self, value: str, nth: int = 0, **kwargs) -> Self:
         """
         Заполняет текстовую область указанным текстом.
@@ -56,7 +59,10 @@ class Textarea(BaseElement):
         with allure.step(step):
             logger.info(step)
             self.get_locator(nth, **kwargs).fill(value)
-            return self
+
+        self.track_coverage(ActionType.FILL, nth, **kwargs)
+
+        return self
 
     def check_have_value(self, value: str, nth: int = 0, **kwargs):
         """
@@ -72,6 +78,8 @@ class Textarea(BaseElement):
             locator = self.get_locator(nth, **kwargs)
             logger.info(step)
             expect(locator).to_have_value(value)
+
+        self.track_coverage(ActionType.VALUE, nth, **kwargs)
 
     def type_text(
         self,
@@ -106,7 +114,10 @@ class Textarea(BaseElement):
                 timeout=timeout,
                 no_wait_after=no_wait_after,
             )
-            return self
+
+        self.track_coverage(ActionType.TYPE, nth, **kwargs)
+
+        return self
 
     def clear(self, nth: int = 0, **kwargs) -> Self:
         """
