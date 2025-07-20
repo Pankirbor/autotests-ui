@@ -53,5 +53,5 @@ class CreateCourseToolbarViewComponent(BaseComponent):
         """
         Кликает по кнопке "Создать курс" и проверяет переход на страницу курсов.
         """
-        self.create_course_btn.check_visible().click()
+        self.create_course_btn.check_visible().check_enabled().click()
         self.check_current_url(re.compile(r".*/#/courses"))
