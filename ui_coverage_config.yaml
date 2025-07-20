@@ -4,3 +4,5 @@ apps:
     name: "UI Course"
     tags: ["UI", "COURSES"]
     repository: "https://github.com/Nikita-Filonov/qa-automation-engineer-ui-course"
+
+html_report_file: "./coverage.html"
