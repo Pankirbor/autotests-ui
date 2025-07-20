@@ -3,6 +3,7 @@ from typing import Self
 import allure
 
 from playwright.sync_api import expect, Locator
+from ui_coverage_tool import ActionType
 
 from elements.base_element import BaseElement
 from tools.logger import get_logger
@@ -43,6 +44,9 @@ class Input(BaseElement):
             logger.error(e)
         return locator
 
+    def get_raw_locator(self, nth=0, **kwargs):
+        return f"{super().get_raw_locator(nth, **kwargs)}//input"
+
     def fill(self, value: str, nth: int = 0, **kwargs) -> Self:
         """
         Заполняет поле ввода указанным значением.
@@ -59,7 +63,9 @@ class Input(BaseElement):
         with allure.step(step):
             logger.info(step)
             self.get_locator(nth, **kwargs).fill(value)
-            return self
+
+        self.track_coverage(ActionType.FILL, nth, **kwargs)
+        return self
 
     def check_have_value(self, value: str, nth: int = 0, **kwargs):
         """
@@ -75,6 +81,8 @@ class Input(BaseElement):
             locator = self.get_locator(nth, **kwargs)
             logger.info(step)
             expect(locator).to_have_value(value)
+
+        self.track_coverage(ActionType.VALUE, nth, **kwargs)
 
     def clear(self, nth: int = 0, **kwargs) -> Self:
         """
@@ -92,7 +100,8 @@ class Input(BaseElement):
             locator = self.get_locator(nth, **kwargs)
             logger.info(step)
             locator.clear()
-            return self
+
+        return self
 
     def type_text(
         self,
@@ -127,4 +136,6 @@ class Input(BaseElement):
                 timeout=timeout,
                 no_wait_after=no_wait_after,
             )
-            return self
+
+        self.track_coverage(ActionType.TYPE, nth, **kwargs)
+        return self
