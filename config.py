@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import Any, Self
 
-from pydantic import BaseModel, EmailStr, DirectoryPath, Field, HttpUrl, FilePath
+from pydantic import BaseModel, EmailStr, DirectoryPath, HttpUrl, FilePath
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -142,6 +142,3 @@ class Settings(BaseSettings):
 
 
 settings = Settings.initialize()
-
-if __name__ == "__main__":
-    print(settings)

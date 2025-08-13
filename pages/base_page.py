@@ -2,7 +2,7 @@ from typing import Pattern
 
 import allure
 
-from playwright.sync_api import Page, Locator, expect
+from playwright.sync_api import Page, expect
 from tools.logger import get_logger
 
 
@@ -55,32 +55,6 @@ class BasePage:
         with allure.step(step):
             logger.info(step)
             self.page.reload(wait_until="domcontentloaded")
-
-    # def check_locator(self, locator: Locator, text: str | None = None) -> None:
-    #     """
-    #     Проверяет видимость элемента и его текстовое содержимое.
-
-    #     Аргументы:
-    #         locator (Locator): Локатор элемента.
-    #         text (str | None): Ожидаемый текст элемента. Если None — только проверяется видимость.
-    #     """
-    #     with allure.step(f"Checking that {locator} is visible{f'and have text{text:r}' if text else ""}"):
-    #         expect(locator).to_be_visible()
-    #         if text:
-    #             expect(locator).to_have_text(text)
-
-    # def check_input_locator(self, locator: Locator, text: str | None) -> None:
-    #     """
-    #     Проверяет видимость поля ввода и его значение.
-
-    #     Аргументы:
-    #         locator (Locator): Локатор поля ввода.
-    #         text (str | None): Ожидаемое значение в поле ввода. Если None — только проверяется видимость.
-    #     """
-    #     with allure.step(f"Checking that  input {locator} is visible{f'and have value{text:r}' if text else ""}"):
-    #         expect(locator).to_be_visible()
-    #         if text:
-    #             expect(locator).to_have_value(text)
 
     def check_current_url(self, expected_url: Pattern[str]) -> None:
         """

@@ -45,7 +45,10 @@ class BaseElement:
         self.name = name
 
     @property
-    def type_of(self):
+    def type_of(self) -> str:
+        """
+        Возвращает тип элемента в нижнем регистре.
+        """
         return self.__class__.__name__
 
     def get_locator(self, nth: int = 0, **kwargs) -> Locator:
@@ -67,19 +70,42 @@ class BaseElement:
             return locator
 
     def get_raw_locator(self, nth: int = 0, **kwargs) -> str:
+        """
+        Возвращает строковый путь локатора элемента.
+        Если в локаторе есть переменные, они заменяются на значения из kwargs.
+
+        Аргументы:
+            nth (int): Индекс элемента, если на странице несколько одинаковых элементов.
+            **kwargs: Дополнительные параметры для форматирования локатора.
+
+        Возвращает:
+            str: Строковый путь локатора.
+        """
         data_testid = self.locator_path.format(**kwargs)
         return f"//*[@data-testid='{data_testid}'][{nth + 1}]"
 
-    def track_coverage(self, action_type: ActionType, nth: int = 0, **kwargs):
+    def track_coverage(self, action_type: ActionType, nth: int = 0, **kwargs) -> None:
+        """
+        Отправляет информацию о выполнении действия в трекер.
+
+        Аргументы:
+            action_type (ActionType): Тип действия (клик, ввод, проверка).
+            nth (int): Индекс элемента.
+            **kwargs: Дополнительные аргументы для форматирования локатора.
+        """
         tracker.track_coverage(
             selector=self.get_raw_locator(nth=nth, **kwargs),
             action_type=action_type,
             selector_type=SelectorType.XPATH,
         )
 
-    def click(self, nth: int = 0, **kwargs):
+    def click(self, nth: int = 0, **kwargs) -> None:
         """
         Выполняет клик по элементу.
+
+        Аргументы:
+            nth (int): Индекс элемента, если на странице несколько одинаковых элементов.
+            **kwargs: Дополнительные параметры для форматирования локатора.
         """
         step = f"Clicking {self.type_of} '{self.name}'"
         with allure.step(step):

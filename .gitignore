@@ -151,3 +151,7 @@ allure_results
 *.json
 videos
 tracing
+educational_practice
+
+#pytest
+.pytest_cache

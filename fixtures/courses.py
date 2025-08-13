@@ -5,6 +5,9 @@ from dto.course_dto import CourseDto
 
 @pytest.fixture
 def course_create_dto():
+    """
+    Фикстура объекта типа CourseDto для создания курса.
+    """
     course = CourseDto(
         **{
             "title": "Playwright",
@@ -20,6 +23,9 @@ def course_create_dto():
 
 @pytest.fixture
 def course_edit_dto():
+    """
+    Фикстура объекта типа CourseDto для редактирования курса.
+    """
     course = CourseDto(
         **{
             "title": "Python",
