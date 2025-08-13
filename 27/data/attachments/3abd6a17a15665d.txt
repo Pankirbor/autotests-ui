@@ -1,0 +1,16 @@
+INFO     PAGES.BASE_PAGE:base_page.py:47 Opening the url: 'AppRoute.LOGIN'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:126 Checking that Input 'Поле Email' is visible
+INFO     UI_COVERAGE_TRACKER_STORAGE:storage.py:34 Results directory does not exist, creating: /home/runner/work/autotests-ui/autotests-ui/coverage-results
+INFO     ELEMENTS.INPUT:input.py:82 Checking that Input 'Поле Email' has a value ''
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:126 Checking that Input 'Поле Password' is visible
+INFO     ELEMENTS.INPUT:input.py:82 Checking that Input 'Поле Password' has a value ''
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:126 Checking that Input 'Поле Email' is visible
+INFO     ELEMENTS.INPUT:input.py:132 Fill Input 'Поле Email' to value user.name@gmail.com with delayed typing
+INFO     ELEMENTS.INPUT:input.py:82 Checking that Input 'Поле Email' has a value 'user.name@gmail.com'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:126 Checking that Input 'Поле Password' is visible
+INFO     ELEMENTS.INPUT:input.py:132 Fill Input 'Поле Password' to value password with delayed typing
+INFO     ELEMENTS.INPUT:input.py:82 Checking that Input 'Поле Password' has a value 'password'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:126 Checking that Button 'Кнопка Login' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:112 Clicking Button 'Кнопка Login'
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:126 Checking that Text 'Сообщение об ошибке при неверном пароле или почте' is visible
+INFO     ELEMENTS.BASE_ELEMENT:base_element.py:141 Checking that Text 'Сообщение об ошибке при неверном пароле или почте' has text 'Wrong email or password'
